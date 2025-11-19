@@ -1,0 +1,151 @@
+# ============================= 全局配置变量 =============================
+@baseUrl=http://127.0.0.1:8888/api/v1/agent
+@contentType=application/json
+
+# ============================= 代理商登录接口 =============================
+# @name login
+# 接口用途：代理商登录
+POST {{baseUrl}}/login
+Content-Type: {{contentType}}
+
+{
+  "email": "zhiqiang2033@gmail.com", 
+  "password": "123456"
+}
+
+@authToken = {{login.response.body.$.data.token}}
+
+# ============================= 消息通道管理接口 =============================
+###
+# @name createChannel
+# 接口用途：创建消息通道
+###
+POST {{baseUrl}}/channel/create
+Authorization: Bearer {{authToken}}
+Content-Type: {{contentType}}
+
+{
+  "code": "dingtalk_test_001",
+  "name": "钉钉测试消息通道001",
+  "provider_code": "dingtalk",
+  "endpoint": "https://oapi.dingtalk.com/robot/send",
+  "config": {
+    "access_token": "your_access_token_here"
+  },
+  "status": true
+}
+
+
+###
+# @name listChannel
+# 接口用途：查询消息通道列表
+###
+GET {{baseUrl}}/channel
+Authorization: Bearer {{authToken}}
+Content-Type: {{contentType}}
+
+{
+}
+
+###
+# @name updateChannel
+# 接口用途：更新消息通道
+###
+POST {{baseUrl}}/channel/update
+Authorization: Bearer {{authToken}}
+Content-Type: {{contentType}}
+
+{
+  "id":2,
+  "name": "钉钉测试消息通道001"
+}
+
+###
+# @name updateChannelStatus
+# 接口用途：更新消息通道状态
+###
+POST {{baseUrl}}/channel/status
+Authorization: Bearer {{authToken}}
+Content-Type: {{contentType}}
+
+{
+  "id":2,
+  "status": true
+}
+
+
+# ============================= 模版管理接口 =============================
+
+###
+# @name createTemplate
+# 接口用途：创建模版
+###
+POST {{baseUrl}}/template/create
+Authorization: Bearer {{authToken}}
+Content-Type: {{contentType}}
+
+{
+  "agent_id": 1,
+  "channel_id": [1],
+  "code": "welcome_template_001",
+  "vendor_code": "TPL_001",
+  "signature": "【公司签名】",
+  "content": "尊敬的用户，您好！您的验证码是{{code}}",
+  "content_type":1,
+  "status": true
+}
+
+###
+# @name queryTemplate
+# 接口用途：分页查询模版
+###
+GET {{baseUrl}}/template
+Authorization: Bearer {{authToken}}
+Content-Type: {{contentType}}
+
+{
+  "page": 1,
+  "size": 10
+}
+
+###
+# @name updateTemplate
+# 接口用途：更新模版
+###
+POST {{baseUrl}}/template/update
+Authorization: Bearer {{authToken}}
+Content-Type: {{contentType}}
+
+{
+  "id": 1,
+  "channel_id": [1,3],
+  "vendor_code": "TPL_001_UPDATED",
+  "signature": "【更新签名】",
+  "content": "尊敬的用户，您好！您的新验证码是{{code}}",
+  "status": false
+}
+
+###
+# @name updateTemplateStatus
+# 接口用途：修改模版状态（启用/禁用）
+###
+POST {{baseUrl}}/template/status
+Authorization: Bearer {{authToken}}
+Content-Type: {{contentType}}
+
+{
+  "id": 1,
+  "status": false
+}
+
+###
+# @name deleteTemplate
+# 接口用途：删除模版
+###
+POST {{baseUrl}}/template/delete
+Authorization: Bearer {{authToken}}
+Content-Type: {{contentType}}
+
+{
+  "id": 1
+}

@@ -1,0 +1,14 @@
+type (
+	PaginationReq {
+		Page int `json:"page,default=1"`
+		Size int `json:"size,default=10"`
+	}
+	IDStatusReq {
+		ID     int64 `json:"id" validate:"required"`
+		Status bool  `json:"status"`
+	}
+	IDReq {
+		ID int64 `json:"id" validate:"required"`
+	}
+)
+

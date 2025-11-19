@@ -1,0 +1,23 @@
+syntax = "proto3";
+
+package gateway;
+option go_package = "./rpc";
+
+message SendRequest {
+  string AgentNo = 1;
+  string AgentKey = 2;
+  string TemplateCode = 3;
+  repeated string Receiver = 4;
+  map<string, string> Variables = 5;
+  map<string, string> Extra = 6;
+}
+
+message SendResponse {
+  int64 Code = 1;
+  int32 FailCount = 2;
+  int32 SuccessCount = 3;
+}
+
+service Gateway {
+  rpc Send(SendRequest) returns(SendResponse);
+}

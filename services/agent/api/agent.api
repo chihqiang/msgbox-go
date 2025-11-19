@@ -1,0 +1,11 @@
+syntax = "v1"
+
+info (
+	title:       "代理商模块API"
+	version:     "1.0.0"
+	wrapCodeMsg: true
+)
+
+import "./api/auth.api"
+import "./api/channel.api"
+import "./api/template.api"

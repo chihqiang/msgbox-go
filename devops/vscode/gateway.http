@@ -1,0 +1,14 @@
+# ============================= 全局配置变量 =============================
+@baseUrl=http://127.0.0.1:8888/api/v1
+@contentType=application/json
+
+# ============================= 代理商登录接口 =============================
+# @name send
+# 接口用途：代理商登录
+POST {{baseUrl}}/send
+Content-Type: {{contentType}}
+Authorization: Basic YWdlbnQ6MTIzNA==
+
+{
+   "template_code":"dingtalk_test_001"
+}
