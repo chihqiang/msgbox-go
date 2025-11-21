@@ -24,3 +24,7 @@ generate-swagger:
 
 generate-rpc:
 	goctl rpc protoc services/gateway/rpc/gateway.proto --go_out=services/gateway/rpc/pb --go-grpc_out=services/gateway/rpc/pb --zrpc_out=services/gateway/rpc --client=true
+
+ui-rpc-gateway:
+	@command -v grpcui >/dev/null 2>&1 || { go install github.com/fullstorydev/grpcui/cmd/grpcui@latest; }
+	grpcui -plaintext localhost:8080
