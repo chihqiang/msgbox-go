@@ -1,0 +1,41 @@
+services:
+  mysql:
+    image: mysql:8.0
+    container_name: msgbox-mysql
+    restart: always
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: 123456
+      MYSQL_DATABASE: msgbox
+      TZ: Asia/Shanghai
+    volumes:
+      - ./data/mysql:/var/lib/mysql
+    networks:
+      - msgbox-network
+  redis:
+    image: redis:5
+    container_name: msgbox-redis
+    restart: always
+    ports:
+      - "6379:6379"
+    environment:
+      TZ: Asia/Shanghai
+    volumes:
+      - ./data/redis:/data
+    networks:
+      - msgbox-network
+  jaeger:
+    image: jaegertracing/all-in-one:1.74.0
+    container_name: msgbox-jaeger
+    environment:
+      TZ: Asia/Shanghai
+    ports:
+      - "16686:16686"
+      - "14268:14268"
+    networks:
+      - msgbox-network
+    restart: always
+networks:
+  msgbox-network:
+    driver: bridge
