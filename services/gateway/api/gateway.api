@@ -1,0 +1,74 @@
+syntax = "v1"
+
+info (
+	title:   "发送平台 API"
+	desc:    "下游接入平台的统一接口"
+	version: "1.0"
+)
+
+// SendRequest 短信发送请求结构体
+type SendRequest {
+	// TemplateCode 模板编码（必填）
+	// 说明：指定发送使用的模板唯一标识。需提前在系统中注册并获取有效编码。
+	// 约束：不可为空字符串，长度通常限制为 1-32 个字符（具体以接口文档为准）。
+	TemplateCode string `json:"template_code,optional"`
+	// Receiver 接收者列表（可选）
+	// 说明：消息接收目标集合，支持批量发送。
+	// 格式：根据消息类型不同，可为手机号（SMS）、邮箱地址（Email）、用户ID等。
+	// 约束：为空时需保证系统有默认接收规则；非空时元素需符合对应模板要求。
+	Receivers []string `json:"receivers,optional"`
+	// Variables 模板参数（可选）
+	// 说明：模板中的动态占位符对应的填充值，key为占位符名称，value为具体内容。
+	// 格式：value支持字符串、数字、布尔等基础类型；复杂类型需与模板定义一致。
+	// 约束：模板包含必填占位符时，必须提供对应 key-value，否则发送可能失败。
+	Variables map[string]string `json:"variables,optional"`
+	// Extra 扩展参数（可选）
+	// 说明：用于传递额外自定义信息，如业务ID、回调标记等。
+	Extra map[string]interface{} `json:"extra,optional"`
+}
+
+// SendResponse 短信发送响应结构体
+// 说明：接口返回的统一响应格式，包含发送结果的统计信息和唯一标识
+type SendResponse {
+	// TraceID 唯一追踪ID
+	// 说明：本次请求的全局唯一标识，用于问题追踪和日志关联。
+	TraceID string `json:"trace_id"`
+	// BatchNo 批次编号
+	// 说明：本次发送任务的批次号，便于后续查询和统计。
+	BatchNo string `json:"batch_no"`
+	// FailCount 发送失败数量（必填）
+	// 说明：本次请求中发送失败的接收者数量。
+	// 约束：非负整数，0 ≤ FailCount ≤ len(Receiver)。
+	FailCount int `json:"fail_count"`
+	// SuccessCount 发送成功数量（必填）
+	// 说明：本次请求中发送成功的接收者数量。
+	// 约束：非负整数，0 ≤ SuccessCount ≤ len(Receiver)。
+	// 关联：SuccessCount + FailCount = 实际处理的接收者数量
+	SuccessCount int `json:"success_count"`
+	// Time 发送时间戳（必填）
+	// 说明：短信发送任务的实际执行时间（服务器时间）。
+	// 格式：Unix时间戳（秒级），如 1735584000 对应 2025-01-01 00:00:00。
+	Time int64 `json:"time"`
+}
+
+// 服务配置说明：
+// 1. 接口统一前缀：/api/v1，所有接口路径基于该前缀（如 /api/v1/send）。
+// 2. 全局中间件：BasicAuthMiddleware（基础认证中间件）。
+//    作用：校验请求身份合法性（如 API Key + Secret 认证），未通过认证直接返回401。
+//    说明：中间件在所有接口调用前执行，无需单独在接口配置。
+@server (
+	prefix:     /api/v1 // 接口路径统一前缀
+	middleware: BasicAuthMiddleware // 全局身份认证中间件
+)
+// gateway-api 核心服务
+// 说明：负责短信发送、状态查询等核心业务入口，对外提供标准化HTTP接口
+service gateway-api {
+	// 短信发送接口
+	// 路径：/send（完整访问路径：/api/v1/send）
+	// 请求方式：POST（推荐POST，避免GET长度限制，保证安全）
+	// 处理器：SendHandler
+	// 说明：封装短信发送核心逻辑（参数校验、模板渲染、通道调用、结果统计）。
+	@handler SendHandler
+	post /send (SendRequest) returns (SendResponse)
+}
+

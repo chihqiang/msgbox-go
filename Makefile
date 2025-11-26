@@ -24,9 +24,14 @@ generate-api:
 	goctl api format --dir .
 	@echo "根据 agent.api 生成 Go 代码"
 	goctl api go -api services/agent/api/agent.api -dir services/agent/api -style gozero
+	@echo "根据 gateway.api 生成 Go 代码"
+	goctl api go -api services/gateway/api/gateway.api -dir services/gateway/api -style gozero
+
 # 生成 Swagger 文档
 generate-swagger:
 	@echo "格式化 API 文件"
 	goctl api format --dir .
 	@echo "生成 agent API 的 Swagger 文档"
 	goctl api swagger -api services/agent/api/agent.api -dir services/agent/api
+	@echo "生成 gateway API 的 Swagger 文档"
+	goctl api swagger -api services/gateway/api/gateway.api -dir services/gateway/api

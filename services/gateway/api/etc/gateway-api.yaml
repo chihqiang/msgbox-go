@@ -1,0 +1,17 @@
+Name: gateway-api
+Host: 0.0.0.0
+Port: 8888
+
+DB:
+  DBType: mysql
+  Username: root
+  Password: "123456"
+  Host: 127.0.0.1
+  Port: 3306
+  Database: msgbox
+
+Telemetry:
+  Name: gateway-api
+  Endpoint: http://127.0.0.1:14268/api/traces
+  Sampler: 1.0
+  Batcher: jaeger
