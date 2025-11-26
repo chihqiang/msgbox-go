@@ -1,0 +1,57 @@
+syntax = "proto3";
+package gateway;
+
+// goctl rpc protoc services/gateway/rpc/gateway.proto --go_out=services/gateway/rpc/pb --go-grpc_out=services/gateway/rpc/pb --zrpc_out=services/gateway/rpc --client=true
+// go install github.com/fullstorydev/grpcui/cmd/grpcui@latest
+// grpcui -plaintext localhost:8080
+option go_package = "./rpc";
+
+// 发送短信/消息的请求消息体
+message SendRequest {
+  // 平台分配给应用的唯一标识（Agent No.）
+  // 用于身份认证，确认请求来源的合法性
+  string AgentNo = 1;
+
+  // 应用对应的密钥（Agent Key）
+  // 与 AgentNo 配合使用，用于请求签名验证，防止请求被篡改
+  string AgentKey = 2;
+
+  // 模板编码（Template Code）
+  // 指向平台预先定义的消息模板（如短信模板、邮件模板）
+  string TemplateCode = 3;
+
+  // 接收者列表（repeated 表示该字段是数组/切片类型）
+  // 存储接收消息的目标号码/地址（如手机号、邮箱地址）
+  repeated string Receiver = 4;
+
+  // 模板变量映射（map<string, string> 表示键值对集合）
+  // 用于填充模板中的占位符（如模板中的 ${name}、${code}）
+  map<string, string> Variables = 5;
+
+  // 扩展字段（Extra）
+  // 存储额外的自定义信息，格式建议为 JSON 字符串（方便灵活扩展）
+  string Extra = 6;
+}
+
+// 发送消息的响应消息体
+message SendResponse {
+  // 响应状态码（Code）
+  // 0：成功；非 0：失败（具体错误码可参考平台文档）
+  int64 Code = 1;
+  // 响应提示信息（Msg）
+  // 描述请求的处理结果（如成功提示、错误原因说明）
+  string Msg = 2;
+  // 发送失败的接收者数量
+  int32 FailCount = 3;
+  // 发送成功的接收者数量
+  int32 SuccessCount = 4;
+}
+
+// 定义网关服务接口（service 关键字用于声明服务）
+service Gateway {
+  // Send 发送消息的 RPC 方法
+  // 输入参数：SendRequest 消息
+  // 输出参数：SendResponse 消息
+  // 该方法用于向指定接收者发送模板消息
+  rpc Send(SendRequest) returns (SendResponse);
+}
