@@ -1,0 +1,70 @@
+import "./base.api"
+
+type (
+	TemplateQueryReq {
+		PaginationReq
+		ID *int64 `json:"id,optional"`
+	}
+	TemplateQueryResp {
+		Total int64              `json:"total"`
+		Data  []TemplateItemResp `json:"data"`
+	}
+	TemplateItemResp {
+		ID         int64  `json:"id"`
+		AgentID    int64  `json:"agent_id"`
+		ChannelID  int64  `json:"channel_id"`
+		Code       string `json:"code"`
+		VendorCode string `json:"vendor_code"`
+		Signature  string `json:"signature"`
+		Content    string `json:"content"`
+		Status     bool   `json:"status"`
+		UsedCount  int64  `json:"used_count"`
+		CreatedAt  string `json:"created_at"`
+		UpdatedAt  string `json:"updated_at"`
+	}
+	TemplateCreateReq {
+		ChannelID  int64  `json:"channel_id"`
+		Code       string `json:"code"`
+		VendorCode string `json:"vendor_code,optional,omitempty"`
+		Signature  string `json:"signature,optional,omitempty"`
+		Content    string `json:"content"`
+		Status     bool   `json:"status"`
+	}
+	TemplateUpdateReq {
+		ID         int64   `json:"id"`
+		ChannelID  *int64  `json:"channel_id"`
+		VendorCode *string `json:"vendor_code,optional,omitempty"`
+		Signature  *string `json:"signature,optional,omitempty"`
+		Content    *string `json:"content,optional,omitempty"`
+		Status     *bool   `json:"status,optional,omitempty"`
+	}
+)
+
+@server (
+	prefix: /api/v1/agent
+	group:  template
+	tags:   "模版模块"
+	desc:   "提供模版查询、新增、修改、禁用/启用、删除功能"
+	jwt:    Auth
+)
+service agent-api {
+	@handler TemplateQueryHandler
+	get /template (TemplateQueryReq) returns (TemplateQueryResp)
+
+	// 模版新增
+	@handler TemplateCreateHandler
+	post /template/create (TemplateCreateReq)
+
+	// 模版更新
+	@handler TemplateUpdateHandler
+	post /template/update (TemplateUpdateReq)
+
+	// 模版状态修改（启用/禁用）
+	@handler TemplateStatusHandler
+	post /template/status (IDStatusReq)
+
+	// 模版删除
+	@handler TemplateDeleteHandler
+	post /template/delete (IDReq)
+}
+

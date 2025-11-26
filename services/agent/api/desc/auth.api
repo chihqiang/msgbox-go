@@ -1,0 +1,36 @@
+syntax = "v1"
+
+type (
+	// LoginReq 登录请求
+	LoginReq {
+		// Email 登录邮箱
+		Email string `json:"email" validate:"email"`
+		// Password 登录密码（8-20位字母数字）
+		Password string `json:"password" validate:"required"`
+	}
+	// LoginResp 登录响应
+	LoginResp {
+		// ID 用户ID
+		ID int64 `json:"id"`
+		// Name 用户名称
+		Name string `json:"name"`
+		// Token 访问令牌
+		Token string `json:"token"`
+		// ExpiresIn Token有效期（秒）
+		ExpiresIn int64 `json:"expires_in"`
+	}
+)
+
+// 认证模块配置
+@server (
+	prefix: /api/v1/agent
+	group:  auth
+	tags:   "认证模块"
+	desc:   "认证接口"
+)
+// 登录接口
+service agent-api {
+	@handler LoginHandler
+	post /login (LoginReq) returns (LoginResp)
+}
+

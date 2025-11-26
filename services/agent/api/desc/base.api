@@ -1,0 +1,22 @@
+type (
+	PaginationReq {
+		Page int `json:"page,default=1"`
+		Size int `json:"size,default=10"`
+	}
+	IDStatusReq {
+		ID     int64 `json:"id" validate:"required"`
+		Status bool  `json:"status"`
+	}
+	IDReq {
+		ID int64 `json:"id" validate:"required"`
+	}
+	FormField {
+		Type        string `json:"type"`
+		Name        string `json:"name"`
+		Label       string `json:"label"`
+		Required    bool   `json:"required"`
+		Placeholder string `json:"placeholder"`
+		Default     string `json:"default"`
+	}
+)
+

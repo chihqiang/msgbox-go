@@ -17,3 +17,16 @@ docker-start-env:
 docker-stop-env:
 	@echo "使用 docker-compose 停止开发环境容器"
 	docker-compose -f deploy/docker/docker-compose-env.yml down
+
+# 生成 API 代码
+generate-api:
+	@echo "格式化 API 文件"
+	goctl api format --dir .
+	@echo "根据 agent.api 生成 Go 代码"
+	goctl api go -api services/agent/api/agent.api -dir services/agent/api -style gozero
+# 生成 Swagger 文档
+generate-swagger:
+	@echo "格式化 API 文件"
+	goctl api format --dir .
+	@echo "生成 agent API 的 Swagger 文档"
+	goctl api swagger -api services/agent/api/agent.api -dir services/agent/api

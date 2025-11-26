@@ -1,0 +1,76 @@
+import "./base.api"
+
+type (
+	ChannelQueryReq {
+		PaginationReq
+		ID int64 `json:"id,optional"`
+	}
+	ChannelQueryResp {
+		Total int64             `json:"total"`
+		Data  []ChannelItemResp `json:"data"`
+	}
+	ChannelItemResp {
+		ID         int64                  `json:"id"`
+		AgentID    int64                  `json:"agent_id"`
+		Code       string                 `json:"code"`
+		Name       string                 `json:"name"`
+		VendorName string                 `json:"vendor_name"`
+		Config     map[string]interface{} `json:"config"`
+		Status     bool                   `json:"status"`
+		CreatedAt  string                 `json:"created_at"`
+		UpdatedAt  string                 `json:"updated_at"`
+	}
+	ChannelCreateReq {
+		Code       string                 `json:"code,optional"`
+		Name       string                 `json:"name,optional"`
+		VendorName string                 `json:"vendor_name"`
+		Config     map[string]interface{} `json:"config,omitempty"`
+		Status     bool                   `json:"status,omitempty"`
+	}
+	ChannelUpdateReq {
+		ID         int64                  `json:"id"`
+		Name       *string                `json:"name,optional,omitempty"`
+		VendorName *string                `json:"vendor_name,optional,omitempty"`
+		Config     map[string]interface{} `json:"config,optional,omitempty"`
+		Status     *bool                  `json:"status,optional,omitempty"`
+	}
+	GetVendorConfigsResp {
+		Name    string      `json:"name"`
+		Label   string      `json:"label"`
+		Configs []FormField `json:"configs"`
+	}
+)
+
+@server (
+	prefix: /api/v1/agent
+	group:  channel
+	tags:   "通道模块"
+	desc:   "通道管理接口"
+	jwt:    Auth
+)
+service agent-api {
+	// 通道查询接口
+	@handler GetVendorConfigs
+	get /vendor/configs returns ([]GetVendorConfigsResp)
+
+	// 通道查询接口
+	@handler ChannelQueryHandler
+	get /channel (ChannelQueryReq) returns (ChannelQueryResp)
+
+	// 通道新增接口
+	@handler ChannelCreateHandler
+	post /channel/create (ChannelCreateReq)
+
+	// 通道更新接口
+	@handler ChannelUpdateHandler
+	post /channel/update (ChannelUpdateReq)
+
+	// 通道状态修改接口（启用/禁用）
+	@handler ChannelStatusHandler
+	post /channel/status (IDStatusReq)
+
+	// 通道删除接口
+	@handler ChannelDeleteHandler
+	post /channel/delete (IDReq)
+}
+
