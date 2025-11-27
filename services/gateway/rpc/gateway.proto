@@ -12,9 +12,9 @@ message SendRequest {
   // 用于身份认证，确认请求来源的合法性
   string AgentNo = 1;
 
-  // 应用对应的密钥（Agent Key）
+  // 应用对应的密钥（Agent Secret）
   // 与 AgentNo 配合使用，用于请求签名验证，防止请求被篡改
-  string AgentKey = 2;
+  string AgentSecret = 2;
 
   // 模板编码（Template Code）
   // 指向平台预先定义的消息模板（如短信模板、邮件模板）

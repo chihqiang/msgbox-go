@@ -20,7 +20,7 @@ type SendPipeline struct {
 	Log          logx.Logger
 	DB           *gorm.DB
 	AgentNo      string
-	AgentKey     string
+	AgentSecret  string
 	TemplateCode string
 	Receivers    []string
 	Variables    map[string]string
@@ -30,8 +30,8 @@ type SendPipeline struct {
 
 func (p *SendPipeline) Check(ctx context.Context) error {
 	serial := workflow.NewStageSerial()
-	serial.Add(tasks.NewCheckParamTask(p.Log, p.AgentNo, p.AgentKey, p.TemplateCode, p.Receivers, p.Variables).Task())
-	serial.Add(tasks.NewCheckAgentTask(p.Log, p.DB, p.AgentNo, p.AgentKey).Task())
+	serial.Add(tasks.NewCheckParamTask(p.Log, p.AgentNo, p.AgentSecret, p.TemplateCode, p.Receivers, p.Variables).Task())
+	serial.Add(tasks.NewCheckAgentTask(p.Log, p.DB, p.AgentNo, p.AgentSecret).Task())
 	serial.Add(tasks.NewCheckTemplateTask(p.Log, p.DB, p.TemplateCode).Task())
 	serial.Add(tasks.NewCreateRecordTask(p.Log, p.DB, p.Receivers, p.Variables, p.Extra).Task())
 	serial.Add(&workflow.Task{

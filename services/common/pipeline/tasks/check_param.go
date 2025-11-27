@@ -11,17 +11,17 @@ import (
 type CheckParamTask struct {
 	Log          logx.Logger
 	AgentNo      string
-	AgentKey     string
+	AgentSecret  string
 	TemplateCode string
 	Receivers    []string
 	Variables    map[string]string
 }
 
-func NewCheckParamTask(log logx.Logger, agentNo string, agentKey string, templateCode string, receivers []string, variables map[string]string) *CheckParamTask {
+func NewCheckParamTask(log logx.Logger, agentNo string, agentSecret string, templateCode string, receivers []string, variables map[string]string) *CheckParamTask {
 	cpt := &CheckParamTask{
 		Log:          log,
 		AgentNo:      agentNo,
-		AgentKey:     agentKey,
+		AgentSecret:  agentSecret,
 		TemplateCode: templateCode,
 		Receivers:    receivers,
 		Variables:    variables,
@@ -36,7 +36,7 @@ func (c *CheckParamTask) Task() *workflow.Task {
 				c.Log.Error("agent no is empty")
 				return ctx, errs.ErrParamInvalid
 			}
-			if c.AgentKey == "" {
+			if c.AgentSecret == "" {
 				c.Log.Error("agent key is empty")
 				return ctx, errs.ErrParamInvalid
 			}

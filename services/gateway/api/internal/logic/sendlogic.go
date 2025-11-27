@@ -55,12 +55,12 @@ func (l *SendLogic) Send(req *types.SendRequest) (resp *types.SendResponse, err 
 	}, nil
 }
 
-func (l *SendLogic) sendPipeline(agentNo, agentKey string, req *types.SendRequest) (*models.SendBatch, error) {
+func (l *SendLogic) sendPipeline(agentNo, agentSecret string, req *types.SendRequest) (*models.SendBatch, error) {
 	sendPipeline := pipeline.SendPipeline{
 		DB:           l.svcCtx.DB,
 		Log:          l.Logger,
 		AgentNo:      agentNo,
-		AgentKey:     agentKey,
+		AgentSecret:  agentSecret,
 		TemplateCode: req.TemplateCode,
 		Receivers:    req.Receivers,
 		Variables:    req.Variables,
