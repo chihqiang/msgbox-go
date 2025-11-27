@@ -34,11 +34,6 @@ type (
 		Config     map[string]interface{} `json:"config,optional,omitempty"`
 		Status     *bool                  `json:"status,optional,omitempty"`
 	}
-	GetVendorConfigsResp {
-		Name    string      `json:"name"`
-		Label   string      `json:"label"`
-		Configs []FormField `json:"configs"`
-	}
 )
 
 @server (
@@ -49,10 +44,6 @@ type (
 	jwt:    Auth
 )
 service agent-api {
-	// 通道查询接口
-	@handler GetVendorConfigs
-	get /vendor/configs returns ([]GetVendorConfigsResp)
-
 	// 通道查询接口
 	@handler ChannelQueryHandler
 	get /channel (ChannelQueryReq) returns (ChannelQueryResp)

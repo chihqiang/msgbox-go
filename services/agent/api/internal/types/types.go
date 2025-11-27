@@ -50,7 +50,7 @@ type FormField struct {
 	Default     string `json:"default"`
 }
 
-type GetVendorConfigsResp struct {
+type GetChannelConfigsResp struct {
 	Name    string      `json:"name"`
 	Label   string      `json:"label"`
 	Configs []FormField `json:"configs"`

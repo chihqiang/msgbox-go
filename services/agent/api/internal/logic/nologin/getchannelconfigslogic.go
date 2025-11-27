@@ -1,7 +1,7 @@
 // Code scaffolded by goctl. Safe to edit.
 // goctl 1.9.2
 
-package channel
+package nologin
 
 import (
 	"chihqiang/msgbox-go/pkg/htmlx"
@@ -14,21 +14,21 @@ import (
 	"github.com/zeromicro/go-zero/core/logx"
 )
 
-type GetVendorConfigsLogic struct {
+type GetChannelConfigsLogic struct {
 	logx.Logger
 	ctx    context.Context
 	svcCtx *svc.ServiceContext
 }
 
-func NewGetVendorConfigsLogic(ctx context.Context, svcCtx *svc.ServiceContext) *GetVendorConfigsLogic {
-	return &GetVendorConfigsLogic{
+func NewGetChannelConfigsLogic(ctx context.Context, svcCtx *svc.ServiceContext) *GetChannelConfigsLogic {
+	return &GetChannelConfigsLogic{
 		Logger: logx.WithContext(ctx),
 		ctx:    ctx,
 		svcCtx: svcCtx,
 	}
 }
 
-func (l *GetVendorConfigsLogic) GetVendorConfigs() (resp []types.GetVendorConfigsResp, err error) {
+func (l *GetChannelConfigsLogic) GetChannelConfigs() (resp []types.GetChannelConfigsResp, err error) {
 	senders := channels.GetSenders()
 	for _, sender := range senders {
 		formFields := make([]types.FormField, 0)
@@ -42,7 +42,7 @@ func (l *GetVendorConfigsLogic) GetVendorConfigs() (resp []types.GetVendorConfig
 				Default:     form.Default,
 			})
 		}
-		resp = append(resp, types.GetVendorConfigsResp{
+		resp = append(resp, types.GetChannelConfigsResp{
 			Name:    sender.GetName(),
 			Label:   sender.GetLabel(),
 			Configs: formFields,

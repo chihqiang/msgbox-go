@@ -1,0 +1,22 @@
+import "./base.api"
+
+type (
+	GetChannelConfigsResp {
+		Name    string      `json:"name"`
+		Label   string      `json:"label"`
+		Configs []FormField `json:"configs"`
+	}
+)
+
+@server (
+	prefix: /api/v1/agent
+	group:  nologin
+	tags:   "公共接口"
+	desc:   "Agent模块公开接口（无需登录，但需JWT授权）"
+)
+service agent-api {
+	// 通道查询接口
+	@handler GetChannelConfigs
+	get /channel/configs returns ([]GetChannelConfigsResp)
+}
+

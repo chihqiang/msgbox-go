@@ -9,6 +9,7 @@ import (
 	agetent "chihqiang/msgbox-go/services/agent/api/internal/handler/agetent"
 	auth "chihqiang/msgbox-go/services/agent/api/internal/handler/auth"
 	channel "chihqiang/msgbox-go/services/agent/api/internal/handler/channel"
+	nologin "chihqiang/msgbox-go/services/agent/api/internal/handler/nologin"
 	template "chihqiang/msgbox-go/services/agent/api/internal/handler/template"
 	"chihqiang/msgbox-go/services/agent/api/internal/svc"
 
@@ -71,13 +72,19 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 				Path:    "/channel/update",
 				Handler: channel.ChannelUpdateHandler(serverCtx),
 			},
-			{
-				Method:  http.MethodGet,
-				Path:    "/vendor/configs",
-				Handler: channel.GetVendorConfigsHandler(serverCtx),
-			},
 		},
 		rest.WithJwt(serverCtx.Config.Auth.AccessSecret),
+		rest.WithPrefix("/api/v1/agent"),
+	)
+
+	server.AddRoutes(
+		[]rest.Route{
+			{
+				Method:  http.MethodGet,
+				Path:    "/channel/configs",
+				Handler: nologin.GetChannelConfigsHandler(serverCtx),
+			},
+		},
 		rest.WithPrefix("/api/v1/agent"),
 	)
 
