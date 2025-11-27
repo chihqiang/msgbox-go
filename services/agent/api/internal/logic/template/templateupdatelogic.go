@@ -33,7 +33,7 @@ func NewTemplateUpdateLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Te
 func (l *TemplateUpdateLogic) TemplateUpdate(req *types.TemplateUpdateReq) error {
 	agentID, err := l.ctx.Value(types.JWTAgentID).(json.Number).Int64()
 	if err != nil {
-		return fmt.Errorf("not find api")
+		return fmt.Errorf("not find agent")
 	}
 	var template models.Template
 	if err := l.svcCtx.DB.Where("id = ? AND agent_id = ?", req.ID, agentID).First(&template).Error; err != nil {

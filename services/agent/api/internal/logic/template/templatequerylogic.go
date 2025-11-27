@@ -33,7 +33,7 @@ func NewTemplateQueryLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Tem
 func (l *TemplateQueryLogic) TemplateQuery(req *types.TemplateQueryReq) (resp *types.TemplateQueryResp, err error) {
 	agentID, err := l.ctx.Value(types.JWTAgentID).(json.Number).Int64()
 	if err != nil {
-		return nil, fmt.Errorf("not find api")
+		return nil, fmt.Errorf("not find agent")
 	}
 	total, templates, err := models.NewPagination[models.Template](l.svcCtx.DB).QueryPage(req.Page, req.Size, func(tx *gorm.DB) *gorm.DB {
 		tx = tx.Where("agent_id = ?", agentID)

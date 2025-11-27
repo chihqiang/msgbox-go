@@ -1,0 +1,29 @@
+syntax = "v1"
+
+type (
+	InfoResp {
+		ID          int64  `json:"id"`
+		AgentNo     string `json:"agent_no"` // 编号
+		AgentSecret string `json:"agent_secret"` // 密钥
+		Name        string `json:"name"` // 联系人姓名
+		Phone       string `json:"phone"` // 手机号
+		Email       string `json:"email"` // 邮箱
+		Status      bool   `json:"status"` // 状态（true=启用，false=禁用）
+		CreatedAt   string `json:"created_at"` // 创建时间
+		UpdatedAt   string `json:"updated_at"` // 更新时间
+	}
+)
+
+// 认证模块配置
+@server (
+	prefix: /api/v1/agent
+	group:  agetent
+	tags:   "代理商基础数据"
+	desc:   "代理商基础站点数据"
+)
+// 登录接口
+service agent-api {
+	@handler InfoHandler
+	post /info returns (InfoResp)
+}
+

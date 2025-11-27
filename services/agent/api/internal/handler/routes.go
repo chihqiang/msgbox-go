@@ -6,6 +6,7 @@ package handler
 import (
 	"net/http"
 
+	agetent "chihqiang/msgbox-go/services/agent/api/internal/handler/agetent"
 	auth "chihqiang/msgbox-go/services/agent/api/internal/handler/auth"
 	channel "chihqiang/msgbox-go/services/agent/api/internal/handler/channel"
 	template "chihqiang/msgbox-go/services/agent/api/internal/handler/template"
@@ -15,6 +16,17 @@ import (
 )
 
 func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
+	server.AddRoutes(
+		[]rest.Route{
+			{
+				Method:  http.MethodPost,
+				Path:    "/info",
+				Handler: agetent.InfoHandler(serverCtx),
+			},
+		},
+		rest.WithPrefix("/api/v1/agent"),
+	)
+
 	server.AddRoutes(
 		[]rest.Route{
 			{

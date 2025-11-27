@@ -31,7 +31,7 @@ func NewChannelCreateLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Cha
 func (l *ChannelCreateLogic) ChannelCreate(req *types.ChannelCreateReq) error {
 	agentID, err := l.ctx.Value(types.JWTAgentID).(json.Number).Int64()
 	if err != nil {
-		return fmt.Errorf("not find api")
+		return fmt.Errorf("not find agent")
 	}
 	var count int64
 	_ = l.svcCtx.DB.Model(&models.Channel{}).Where(&models.Channel{

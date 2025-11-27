@@ -33,7 +33,7 @@ func NewChannelDeleteLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Cha
 func (l *ChannelDeleteLogic) ChannelDelete(req *types.IDReq) error {
 	agentID, err := l.ctx.Value(types.JWTAgentID).(json.Number).Int64()
 	if err != nil {
-		return fmt.Errorf("not find api")
+		return fmt.Errorf("not find agent")
 	}
 	var channel models.Channel
 	if err := l.svcCtx.DB.Where("id = ? AND agent_id = ?", req.ID, agentID).First(&channel).Error; err != nil {

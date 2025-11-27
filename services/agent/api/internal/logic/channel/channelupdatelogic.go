@@ -31,7 +31,7 @@ func NewChannelUpdateLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Cha
 func (l *ChannelUpdateLogic) ChannelUpdate(req *types.ChannelUpdateReq) error {
 	agentID, err := l.ctx.Value(types.JWTAgentID).(json.Number).Int64()
 	if err != nil {
-		return fmt.Errorf("not find api")
+		return fmt.Errorf("not find agent")
 	}
 	updateData := models.Channel{}
 	if req.Name != nil {

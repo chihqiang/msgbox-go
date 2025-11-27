@@ -33,7 +33,7 @@ func NewChannelQueryLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Chan
 func (l *ChannelQueryLogic) ChannelQuery(req *types.ChannelQueryReq) (resp *types.ChannelQueryResp, err error) {
 	agentID, err := l.ctx.Value(types.JWTAgentID).(json.Number).Int64()
 	if err != nil {
-		return nil, fmt.Errorf("not find api")
+		return nil, fmt.Errorf("not find agent")
 	}
 
 	total, channels, err := models.NewPagination[models.Channel](l.svcCtx.DB).QueryPage(req.Page, req.Size, func(tx *gorm.DB) *gorm.DB {

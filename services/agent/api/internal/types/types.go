@@ -65,6 +65,18 @@ type IDStatusReq struct {
 	Status bool  `json:"status"`
 }
 
+type InfoResp struct {
+	ID          int64  `json:"id"`
+	AgentNo     string `json:"agent_no"`     // 编号
+	AgentSecret string `json:"agent_secret"` // 密钥
+	Name        string `json:"name"`         // 联系人姓名
+	Phone       string `json:"phone"`        // 手机号
+	Email       string `json:"email"`        // 邮箱
+	Status      bool   `json:"status"`       // 状态（true=启用，false=禁用）
+	CreatedAt   string `json:"created_at"`   // 创建时间
+	UpdatedAt   string `json:"updated_at"`   // 更新时间
+}
+
 type LoginReq struct {
 	Email    string `json:"email" validate:"email"`
 	Password string `json:"password" validate:"required"`

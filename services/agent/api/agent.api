@@ -7,5 +7,6 @@ info (
 )
 
 import "./desc/auth.api"
+import "./desc/agent.api"
 import "./desc/channel.api"
 import "./desc/template.api"

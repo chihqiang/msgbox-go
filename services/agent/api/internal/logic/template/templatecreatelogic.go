@@ -33,7 +33,7 @@ func NewTemplateCreateLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Te
 func (l *TemplateCreateLogic) TemplateCreate(req *types.TemplateCreateReq) error {
 	agentID, err := l.ctx.Value(types.JWTAgentID).(json.Number).Int64()
 	if err != nil {
-		return fmt.Errorf("not find api")
+		return fmt.Errorf("not find agent")
 	}
 	var channel models.Channel
 	if err := l.svcCtx.DB.Where("id = ? AND agent_id = ?", req.ChannelID, agentID).First(&channel).Error; err != nil {
