@@ -20,10 +20,11 @@ type (
 	group:  agetent
 	tags:   "代理商基础数据"
 	desc:   "代理商基础站点数据"
+	jwt:    Auth
 )
 // 登录接口
 service agent-api {
 	@handler InfoHandler
-	post /info returns (InfoResp)
+	get /info returns (InfoResp)
 }
 

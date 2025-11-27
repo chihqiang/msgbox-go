@@ -5,13 +5,12 @@ package agetent
 
 import (
 	"chihqiang/msgbox-go/pkg/timex"
+	"chihqiang/msgbox-go/services/agent/api/internal/svc"
+	"chihqiang/msgbox-go/services/agent/api/internal/types"
 	"chihqiang/msgbox-go/services/common/models"
 	"context"
 	"encoding/json"
 	"fmt"
-
-	"chihqiang/msgbox-go/services/agent/api/internal/svc"
-	"chihqiang/msgbox-go/services/agent/api/internal/types"
 
 	"github.com/zeromicro/go-zero/core/logx"
 )
