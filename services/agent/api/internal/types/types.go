@@ -82,6 +82,12 @@ type PaginationReq struct {
 	Size int `json:"size,default=10"`
 }
 
+type RegisterReq struct {
+	Email    string `json:"email" validate:"email"`
+	Password string `json:"password" validate:"required"`
+	Phone    string `json:"phone,optional"`
+}
+
 type TemplateCreateReq struct {
 	ChannelID  int64  `json:"channel_id"`
 	Code       string `json:"code"`

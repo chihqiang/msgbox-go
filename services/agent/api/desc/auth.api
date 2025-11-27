@@ -19,6 +19,11 @@ type (
 		// ExpiresIn Token有效期（秒）
 		ExpiresIn int64 `json:"expires_in"`
 	}
+	RegisterReq {
+		Email    string `json:"email" validate:"email"`
+		Password string `json:"password" validate:"required"`
+		Phone    string `json:"phone,optional"`
+	}
 )
 
 // 认证模块配置
@@ -32,5 +37,8 @@ type (
 service agent-api {
 	@handler LoginHandler
 	post /login (LoginReq) returns (LoginResp)
+
+	@handler RegisterHandler
+	post /register (RegisterReq)
 }
 
