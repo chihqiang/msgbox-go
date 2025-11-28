@@ -57,7 +57,7 @@ type SendResponse {
 //    作用：校验请求身份合法性（如 API Key + Secret 认证），未通过认证直接返回401。
 //    说明：中间件在所有接口调用前执行，无需单独在接口配置。
 @server (
-	prefix:     /api/v1 // 接口路径统一前缀
+	prefix:     /api/v1/gateway // 接口路径统一前缀
 	middleware: BasicAuthMiddleware // 全局身份认证中间件
 )
 // gateway-api 核心服务

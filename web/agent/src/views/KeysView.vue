@@ -163,7 +163,7 @@ const authHeader = computed(() => {
 });
 
 const curlExample = computed(() => {
-  return `curl -X POST "http://127.0.0.1:8888/api/v1/send"
+  return `curl -X POST "${import.meta.env.VITE_GATEWAY_URL}/send"
   -H "Content-Type: application/json"
   -H "Authorization: Basic ${authHeader.value}"
   -d '{
