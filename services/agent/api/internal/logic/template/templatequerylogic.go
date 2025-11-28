@@ -37,6 +37,10 @@ func (l *TemplateQueryLogic) TemplateQuery(req *types.TemplateQueryReq) (resp *t
 	}
 	total, templates, err := models.NewPagination[models.Template](l.svcCtx.DB).QueryPage(req.Page, req.Size, func(tx *gorm.DB) *gorm.DB {
 		tx = tx.Where("agent_id = ?", agentID)
+		if req.Keywords != "" {
+			keyword := "%" + req.Keywords + "%"
+			tx = tx.Where("code LIKE ?", keyword).Or("vendor_code LIKE ?", keyword).Or("content LIKE ?", keyword)
+		}
 		return tx
 	})
 	if err != nil {

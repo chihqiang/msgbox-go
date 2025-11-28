@@ -130,7 +130,8 @@ type TemplateItemResp struct {
 
 type TemplateQueryReq struct {
 	PaginationReq
-	ID *int64 `json:"id,optional"`
+	ID       int64  `json:"id,optional"`
+	Keywords string `json:"keywords,optional"`
 }
 
 type TemplateQueryResp struct {
