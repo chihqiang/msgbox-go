@@ -1,0 +1,48 @@
+import "./base.api"
+
+type (
+	RecordQueryReq {
+		PaginationReq
+		ID       int64  `json:"id,optional"`
+		Keywords string `json:"keywords,optional"`
+	}
+	RecordItemResp {
+		ID            int64                  `json:"id"`
+		Receiver      string                 `json:"receiver"`
+		ChannelName   string                 `json:"channel_name"`
+		ChannelConfig map[string]interface{} `json:"channel_config"`
+		VendorName    string                 `json:"vendor_name"`
+		VendorCode    string                 `json:"vendor_code"`
+		Signature     string                 `json:"signature"`
+		Title         string                 `json:"title"`
+		Content       string                 `json:"content"`
+		Variables     map[string]interface{} `json:"variables"`
+		Extra         map[string]interface{} `json:"extra"`
+		Status        int                    `json:"status"`
+		StatusMsg     string                 `json:"status_msg"`
+		SendTime      string                 `json:"send_time"`
+		Error         string                 `json:"error"`
+		Response      map[string]interface{} `json:"response"`
+		DeliveryTime  string                 `json:"delivery_time"`
+		DeliveryRaw   map[string]interface{} `json:"delivery_raw"`
+		CreatedAt     string                 `json:"created_at"`
+		UpdatedAt     string                 `json:"updated_at"`
+	}
+	RecordQueryResp {
+		Total int64            `json:"total"`
+		Data  []RecordItemResp `json:"data"`
+	}
+)
+
+@server (
+	prefix: /api/v1/agent
+	group:  record
+	tags:   "发送记录"
+	desc:   "发送记录相关操作"
+	jwt:    Auth
+)
+service agent-api {
+	@handler RecordQueryHandler
+	post /record (RecordQueryReq) returns (RecordQueryResp)
+}
+

@@ -32,13 +32,13 @@ func FormatDate(i any) string {
 		if v.IsZero() {
 			return ""
 		}
-		return v.Format(DateLayout)
+		return v.Format(DateTimeLayout)
 	case *time.Time:
 		if v != nil {
 			if v.IsZero() {
 				return ""
 			}
-			return v.Format(DateLayout)
+			return v.Format(DateTimeLayout)
 		}
 	}
 	return ""

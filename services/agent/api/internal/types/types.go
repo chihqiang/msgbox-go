@@ -95,6 +95,40 @@ type PaginationReq struct {
 	Size int `json:"size,default=10"`
 }
 
+type RecordItemResp struct {
+	ID            int64                  `json:"id"`
+	Receiver      string                 `json:"receiver"`
+	ChannelName   string                 `json:"channel_name"`
+	ChannelConfig map[string]interface{} `json:"channel_config"`
+	VendorName    string                 `json:"vendor_name"`
+	VendorCode    string                 `json:"vendor_code"`
+	Signature     string                 `json:"signature"`
+	Title         string                 `json:"title"`
+	Content       string                 `json:"content"`
+	Variables     map[string]interface{} `json:"variables"`
+	Extra         map[string]interface{} `json:"extra"`
+	Status        int                    `json:"status"`
+	StatusMsg     string                 `json:"status_msg"`
+	SendTime      string                 `json:"send_time"`
+	Error         string                 `json:"error"`
+	Response      map[string]interface{} `json:"response"`
+	DeliveryTime  string                 `json:"delivery_time"`
+	DeliveryRaw   map[string]interface{} `json:"delivery_raw"`
+	CreatedAt     string                 `json:"created_at"`
+	UpdatedAt     string                 `json:"updated_at"`
+}
+
+type RecordQueryReq struct {
+	PaginationReq
+	ID       int64  `json:"id,optional"`
+	Keywords string `json:"keywords,optional"`
+}
+
+type RecordQueryResp struct {
+	Total int64            `json:"total"`
+	Data  []RecordItemResp `json:"data"`
+}
+
 type RegisterReq struct {
 	Email    string `json:"email" validate:"email"`
 	Password string `json:"password" validate:"required"`

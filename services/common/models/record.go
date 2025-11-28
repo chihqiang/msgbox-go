@@ -1,9 +1,10 @@
 package models
 
 import (
+	"time"
+
 	"gorm.io/datatypes"
 	"gorm.io/gorm"
-	"time"
 )
 
 const (
@@ -76,6 +77,19 @@ type SendRecord struct {
 	Agent         *Agent         `gorm:"foreignKey:AgentID" json:"agent,omitempty"`
 	Channel       *Channel       `gorm:"foreignKey:ChannelID" json:"channel,omitempty"`
 	Template      *Template      `gorm:"foreignKey:TemplateID" json:"template,omitempty"`
+}
+
+func (sr *SendRecord) StatusMsg() string {
+	switch sr.Status {
+	case SendRecordStatusSending:
+		return "发送中"
+	case SendRecordStatusSuccess:
+		return "成功"
+	case SendRecordStatusFailed:
+		return "失败"
+	default:
+		return "待发送"
+	}
 }
 
 func (sr *SendRecord) GetReceiver() string {
