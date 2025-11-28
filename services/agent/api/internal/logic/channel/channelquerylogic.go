@@ -35,9 +35,12 @@ func (l *ChannelQueryLogic) ChannelQuery(req *types.ChannelQueryReq) (resp *type
 	if err != nil {
 		return nil, fmt.Errorf("not find agent")
 	}
-
 	total, channels, err := models.NewPagination[models.Channel](l.svcCtx.DB).QueryPage(req.Page, req.Size, func(tx *gorm.DB) *gorm.DB {
 		tx = tx.Where("agent_id = ?", agentID)
+		if req.Keywords != "" {
+			keyword := "%" + req.Keywords + "%"
+			tx = tx.Where("code LIKE ?", keyword).Or("vendor_name LIKE ?", keyword).Or("name LIKE ?", keyword)
+		}
 		return tx
 	})
 	if err != nil {

@@ -25,7 +25,8 @@ type ChannelItemResp struct {
 
 type ChannelQueryReq struct {
 	PaginationReq
-	ID int64 `json:"id,optional"`
+	ID       int64  `json:"id,optional"`
+	Keywords string `json:"keywords,optional"`
 }
 
 type ChannelQueryResp struct {
@@ -98,6 +99,10 @@ type RegisterReq struct {
 	Email    string `json:"email" validate:"email"`
 	Password string `json:"password" validate:"required"`
 	Phone    string `json:"phone,optional"`
+}
+
+type ResetSecretResp struct {
+	AgentSecret string `json:"agent_secret"`
 }
 
 type TemplateCreateReq struct {

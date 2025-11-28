@@ -20,7 +20,6 @@ func ChannelQueryHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
 			xhttp.JsonBaseResponseCtx(r.Context(), w, err)
 			return
 		}
-
 		l := channel.NewChannelQueryLogic(r.Context(), svcCtx)
 		resp, err := l.ChannelQuery(&req)
 		if err != nil {

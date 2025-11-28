@@ -49,7 +49,7 @@ type (
 )
 service agent-api {
 	@handler TemplateQueryHandler
-	get /template (TemplateQueryReq) returns (TemplateQueryResp)
+	post /template (TemplateQueryReq) returns (TemplateQueryResp)
 
 	// 模版新增
 	@handler TemplateCreateHandler

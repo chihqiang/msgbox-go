@@ -13,7 +13,7 @@ type Channel struct {
 	Name       string         `gorm:"column:name;size:50;default:'';comment:通道名称" json:"name"`
 	VendorName string         `gorm:"column:vendor_name;size:50;not null;comment:服务商名称" json:"vendor_name"`
 	Config     datatypes.JSON `gorm:"column:config;type:JSON;not null;comment:通道配置" json:"config"`
-	Status     bool           `gorm:"column:status;not null;default:true;comment:状态（true=启用，false=禁用）" json:"status"`
+	Status     bool           `gorm:"column:status;not null;comment:状态（true=启用，false=禁用）" json:"status"`
 	CreatedAt  time.Time      `gorm:"autoCreateTime:nano" json:"created_at"`
 	UpdatedAt  time.Time      `gorm:"autoUpdateTime:nano" json:"updated_at"`
 	DeletedAt  gorm.DeletedAt `gorm:"index" json:"-"`

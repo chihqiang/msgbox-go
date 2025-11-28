@@ -16,7 +16,7 @@ type Agent struct {
 	Phone       string         `gorm:"column:phone;size:20;default:'';comment:手机号" json:"phone"`
 	Email       string         `gorm:"column:email;uniqueIndex;size:100;not null;comment:邮箱" json:"email"`
 	Password    string         `gorm:"column:password;size:128;not null;comment:登录密码" json:"-"`
-	Status      bool           `gorm:"column:status;not null;default:true;comment:状态（true=启用，false=禁用）" json:"status"`
+	Status      bool           `gorm:"column:status;not null;comment:状态（true=启用，false=禁用）" json:"status"`
 	CreatedAt   time.Time      `gorm:"autoCreateTime:nano" json:"created_at"`
 	UpdatedAt   time.Time      `gorm:"autoUpdateTime:nano" json:"updated_at"`
 	DeletedAt   gorm.DeletedAt `gorm:"index" json:"-"`

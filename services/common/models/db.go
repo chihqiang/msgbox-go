@@ -106,21 +106,16 @@ func DataTypesToMap(j datatypes.JSON) map[string]interface{} {
 	return m
 }
 
-// Pagination 泛型分页结构体
 type Pagination[T any] struct {
 	DB *gorm.DB
 }
 
-// NewPagination 初始化 Pagination
 func NewPagination[T any](db *gorm.DB) *Pagination[T] {
 	return &Pagination[T]{DB: db}
 }
 
-// QueryPage 执行分页查询
-// page: 当前页码，从 1 开始
-// pageSize: 每页数量
-// query: 可选的查询函数
 func (p *Pagination[T]) QueryPage(page, pageSize int, query func(tx *gorm.DB) *gorm.DB) (total int64, data []T, err error) {
+	// normalize
 	if page <= 0 {
 		page = 1
 	}
@@ -131,20 +126,28 @@ func (p *Pagination[T]) QueryPage(page, pageSize int, query func(tx *gorm.DB) *g
 	if pageSize > maxPageSize {
 		pageSize = maxPageSize
 	}
-	// 创建查询基础
-	tx := p.DB.Model(new(T))
+
+	// Safe model inference
+	var entity T
+	tx := p.DB.Model(&entity)
+
 	if query != nil {
 		tx = query(tx)
 	}
-	// 查询总数
-	if err = tx.Count(&total).Error; err != nil {
+
+	// Count safely
+	countTx := tx.Session(&gorm.Session{})
+	if err = countTx.Count(&total).Error; err != nil {
 		return
 	}
+
 	if total == 0 {
-		return total, make([]T, 0), nil
+		return total, []T{}, nil
 	}
-	// 查询分页数据
-	data = make([]T, 0)
-	err = tx.Limit(pageSize).Offset((page - 1) * pageSize).Find(&data).Error
+
+	offset := (page - 1) * pageSize
+
+	// Query data
+	err = tx.Limit(pageSize).Offset(offset).Find(&data).Error
 	return total, data, err
 }

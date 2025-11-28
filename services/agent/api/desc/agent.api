@@ -12,6 +12,9 @@ type (
 		CreatedAt   string `json:"created_at"` // 创建时间
 		UpdatedAt   string `json:"updated_at"` // 更新时间
 	}
+	ResetSecretResp {
+		AgentSecret string `json:"agent_secret"`
+	}
 )
 
 // 认证模块配置
@@ -26,5 +29,8 @@ type (
 service agent-api {
 	@handler InfoHandler
 	get /info returns (InfoResp)
+
+	@handler resetSecretHandler
+	post /reset/agent/secret returns (ResetSecretResp)
 }
 

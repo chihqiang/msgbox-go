@@ -24,6 +24,11 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 				Path:    "/info",
 				Handler: agetent.InfoHandler(serverCtx),
 			},
+			{
+				Method:  http.MethodPost,
+				Path:    "/reset/agent/secret",
+				Handler: agetent.ResetSecretHandler(serverCtx),
+			},
 		},
 		rest.WithJwt(serverCtx.Config.Auth.AccessSecret),
 		rest.WithPrefix("/api/v1/agent"),
@@ -48,7 +53,7 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 	server.AddRoutes(
 		[]rest.Route{
 			{
-				Method:  http.MethodGet,
+				Method:  http.MethodPost,
 				Path:    "/channel",
 				Handler: channel.ChannelQueryHandler(serverCtx),
 			},
@@ -91,7 +96,7 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 	server.AddRoutes(
 		[]rest.Route{
 			{
-				Method:  http.MethodGet,
+				Method:  http.MethodPost,
 				Path:    "/template",
 				Handler: template.TemplateQueryHandler(serverCtx),
 			},
