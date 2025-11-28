@@ -24,6 +24,7 @@ type Agent struct {
 
 func (a *Agent) BeforeCreate(tx *gorm.DB) (err error) {
 	a.AgentNo = strings.Join([]string{"MSG", time.Now().Format("20060102"), lo.RandomString(4, lo.NumbersCharset)}, "")
+	a.AgentSecret = lo.RandomString(32, lo.AlphanumericCharset)
 	return nil
 
 }
