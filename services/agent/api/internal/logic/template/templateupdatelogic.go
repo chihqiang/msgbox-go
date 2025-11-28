@@ -45,15 +45,15 @@ func (l *TemplateUpdateLogic) TemplateUpdate(req *types.TemplateUpdateReq) error
 	}
 	if req.Signature != nil {
 		template.Signature = *req.Signature
-
 	}
 	if req.Content != nil {
 		template.Content = *req.Content
-
 	}
 	if req.Status != nil {
 		template.Status = *req.Status
-
+	}
+	if req.Name != nil {
+		template.Name = *req.Name
 	}
 	// 更新 Channels 关联
 	if req.ChannelID != nil {

@@ -9,6 +9,7 @@ type Template struct {
 	ID         int64          `gorm:"primaryKey;autoIncrement" json:"id"`
 	AgentID    int64          `gorm:"column:agent_id;uniqueIndex:idx_agent_code;not null;comment:代理商ID" json:"agent_id"`
 	ChannelID  int64          `gorm:"column:channel_id;not null;comment:所属通道ID" json:"channel_id"`
+	Name       string         `gorm:"column:name;size:100;not null;comment:模版名称" json:"name"`
 	Code       string         `gorm:"column:code;uniqueIndex:idx_agent_code;size:50;not null;comment:模版编码" json:"code"`
 	VendorCode string         `gorm:"column:vendor_code;size:100;default:'';comment:厂商模板编码" json:"vendor_code"`
 	Signature  string         `gorm:"column:signature;size:64;default:'';comment:签名" json:"signature"`

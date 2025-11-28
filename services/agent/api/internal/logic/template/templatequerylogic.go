@@ -58,6 +58,7 @@ func (l TemplateQueryLogic) convert(templates []models.Template) []types.Templat
 		items = append(items, types.TemplateItemResp{
 			ID:         item.ID,
 			AgentID:    item.AgentID,
+			Name:       item.Name,
 			Code:       item.Code,
 			VendorCode: item.VendorCode,
 			Signature:  item.Signature,

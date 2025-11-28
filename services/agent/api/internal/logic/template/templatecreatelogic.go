@@ -46,6 +46,7 @@ func (l *TemplateCreateLogic) TemplateCreate(req *types.TemplateCreateReq) error
 	template := &models.Template{
 		AgentID:    agentID,
 		ChannelID:  channel.ID,
+		Name:       req.Name,
 		Code:       req.Code,
 		VendorCode: req.VendorCode,
 		Signature:  req.Signature,

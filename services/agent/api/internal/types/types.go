@@ -107,6 +107,7 @@ type ResetSecretResp struct {
 
 type TemplateCreateReq struct {
 	ChannelID  int64  `json:"channel_id"`
+	Name       string `json:"name"`
 	Code       string `json:"code"`
 	VendorCode string `json:"vendor_code,optional,omitempty"`
 	Signature  string `json:"signature,optional,omitempty"`
@@ -118,6 +119,7 @@ type TemplateItemResp struct {
 	ID         int64  `json:"id"`
 	AgentID    int64  `json:"agent_id"`
 	ChannelID  int64  `json:"channel_id"`
+	Name       string `json:"name"`
 	Code       string `json:"code"`
 	VendorCode string `json:"vendor_code"`
 	Signature  string `json:"signature"`
@@ -141,6 +143,7 @@ type TemplateQueryResp struct {
 
 type TemplateUpdateReq struct {
 	ID         int64   `json:"id"`
+	Name       *string `json:"name"`
 	ChannelID  *int64  `json:"channel_id"`
 	VendorCode *string `json:"vendor_code,optional,omitempty"`
 	Signature  *string `json:"signature,optional,omitempty"`
