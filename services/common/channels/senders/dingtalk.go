@@ -1,4 +1,4 @@
-package channels
+package senders
 
 import (
 	"chihqiang/msgbox-go/pkg/clientx"

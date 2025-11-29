@@ -2,7 +2,7 @@ package tasks
 
 import (
 	"chihqiang/msgbox-go/pkg/workflow"
-	"chihqiang/msgbox-go/services/common/channels"
+	"chihqiang/msgbox-go/services/common/channels/senders"
 	"chihqiang/msgbox-go/services/common/errs"
 	"chihqiang/msgbox-go/services/common/models"
 	"context"
@@ -27,9 +27,8 @@ func NewSendTask(log logx.Logger, db *gorm.DB, record *models.SendRecord) *SendT
 	}
 }
 
-func (s *SendTask) getSender() (channels.ISender, error) {
-	senders := channels.GetSenders()
-	for _, sender := range senders {
+func (s *SendTask) getSender() (senders.ISender, error) {
+	for _, sender := range senders.Get() {
 		if sender.GetName() == s.record.VendorName {
 			if err := sender.SetConfig(models.DataTypesToMap(s.record.ChannelConfig)); err != nil {
 				return nil, err

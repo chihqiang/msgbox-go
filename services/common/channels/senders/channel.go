@@ -1,4 +1,4 @@
-package channels
+package senders
 
 var (
 	senders = []ISender{
@@ -7,7 +7,7 @@ var (
 	}
 )
 
-func GetSenders() []ISender {
+func Get() []ISender {
 	return senders
 }
 

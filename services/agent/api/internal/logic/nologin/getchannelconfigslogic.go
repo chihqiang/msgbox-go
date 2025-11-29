@@ -5,7 +5,7 @@ package nologin
 
 import (
 	"chihqiang/msgbox-go/pkg/htmlx"
-	"chihqiang/msgbox-go/services/common/channels"
+	"chihqiang/msgbox-go/services/common/channels/senders"
 	"context"
 
 	"chihqiang/msgbox-go/services/agent/api/internal/svc"
@@ -29,8 +29,7 @@ func NewGetChannelConfigsLogic(ctx context.Context, svcCtx *svc.ServiceContext) 
 }
 
 func (l *GetChannelConfigsLogic) GetChannelConfigs() (resp []types.GetChannelConfigsResp, err error) {
-	senders := channels.GetSenders()
-	for _, sender := range senders {
+	for _, sender := range senders.Get() {
 		formFields := make([]types.FormField, 0)
 		for _, form := range htmlx.ToFormFields(sender) {
 			formFields = append(formFields, types.FormField{
