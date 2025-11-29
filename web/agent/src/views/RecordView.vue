@@ -12,14 +12,14 @@
         <a-card style="margin-bottom: 24px;">
           <a-space size="middle" wrap>
             <a-input-search v-model:value="searchKeyword" placeholder="搜索关键词（接收人、通道名称等）" allow-clear style="width: 300px;"
-              @search="handleSearch" />
-            <a-button type="primary" @click="handleSearch">
+              @search="handleSearch" :loading="loading" />
+            <a-button type="primary" @click="handleSearch" :loading="loading">
               <template #icon>
                 <search-outlined />
               </template>
               搜索
             </a-button>
-            <a-button @click="handleReset">
+            <a-button @click="handleReset" :loading="loading">
               重置
             </a-button>
           </a-space>
@@ -188,17 +188,14 @@ onMounted(() => {
 // 获取记录列表（调用后端API，支持搜索）
 const fetchRecords = async () => {
   loading.value = true;
-  try {
-    const res = await listRecords({
-      page: pagination.current,
-      size: pagination.pageSize,
-      keywords: searchKeyword.value // 传入搜索关键词到后端API
-    });
-    records.value = res.data.data || [];
-    pagination.total = res.data.total || 0;
-  } finally {
-    loading.value = false;
-  }
+  const res = await listRecords({
+    page: pagination.current,
+    size: pagination.pageSize,
+    keywords: searchKeyword.value
+  });
+  records.value = res.data.data || [];
+  pagination.total = res.data.total || 0;
+  loading.value = false;
 };
 
 // 搜索处理
