@@ -3,8 +3,8 @@ import "./base.api"
 type (
 	RecordQueryReq {
 		PaginationReq
-		ID       int64  `json:"id,optional"`
-		Keywords string `json:"keywords,optional"`
+		ID       int64  `json:"id,optional" form:"id,optional"`
+		Keywords string `json:"keywords,optional" form:"keywords,optional"`
 	}
 	RecordItemResp {
 		ID            int64                  `json:"id"`
@@ -43,6 +43,6 @@ type (
 )
 service agent-api {
 	@handler RecordQueryHandler
-	post /record (RecordQueryReq) returns (RecordQueryResp)
+	get /record (RecordQueryReq) returns (RecordQueryResp)
 }
 

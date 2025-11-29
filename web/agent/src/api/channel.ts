@@ -8,7 +8,7 @@ export async function getChannelConfigs(): Promise<ApiResponse<Configs[]>> {
 
 
 export async function listChannels(query: QueryRequest): Promise<ApiResponse<Page<ChannelItem>>> {
-  return await post<Page<ChannelItem>>('/channel', query)
+  return await get<Page<ChannelItem>>('/channel', {...query})
 }
 
 export async function createChannel(channel: ChannelItem): Promise<ApiResponse<null>> {

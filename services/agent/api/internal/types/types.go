@@ -25,8 +25,8 @@ type ChannelItemResp struct {
 
 type ChannelQueryReq struct {
 	PaginationReq
-	ID       int64  `json:"id,optional"`
-	Keywords string `json:"keywords,optional"`
+	ID       int64  `json:"id,optional" form:"id,optional"`
+	Keywords string `json:"keywords,optional" form:"keywords,optional"`
 }
 
 type ChannelQueryResp struct {
@@ -91,8 +91,8 @@ type LoginResp struct {
 }
 
 type PaginationReq struct {
-	Page int `json:"page,default=1"`
-	Size int `json:"size,default=10"`
+	Page int `json:"page,default=1" form:"page,default=1"`
+	Size int `json:"size,default=10" json:"page,default=1"`
 }
 
 type RecordItemResp struct {
@@ -120,8 +120,8 @@ type RecordItemResp struct {
 
 type RecordQueryReq struct {
 	PaginationReq
-	ID       int64  `json:"id,optional"`
-	Keywords string `json:"keywords,optional"`
+	ID       int64  `json:"id,optional" form:"id,optional"`
+	Keywords string `json:"keywords,optional" form:"keywords,optional"`
 }
 
 type RecordQueryResp struct {
@@ -166,8 +166,8 @@ type TemplateItemResp struct {
 
 type TemplateQueryReq struct {
 	PaginationReq
-	ID       int64  `json:"id,optional"`
-	Keywords string `json:"keywords,optional"`
+	ID       int64  `json:"id,optional" form:"id,optional"`
+	Keywords string `json:"keywords,optional" form:"keywords,optional"`
 }
 
 type TemplateQueryResp struct {

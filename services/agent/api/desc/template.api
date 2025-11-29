@@ -3,8 +3,8 @@ import "./base.api"
 type (
 	TemplateQueryReq {
 		PaginationReq
-		ID       int64  `json:"id,optional"`
-		Keywords string `json:"keywords,optional"`
+		ID       int64  `json:"id,optional" form:"id,optional"`
+		Keywords string `json:"keywords,optional" form:"keywords,optional"`
 	}
 	TemplateQueryResp {
 		Total int64              `json:"total"`
@@ -53,7 +53,7 @@ type (
 )
 service agent-api {
 	@handler TemplateQueryHandler
-	post /template (TemplateQueryReq) returns (TemplateQueryResp)
+	get /template (TemplateQueryReq) returns (TemplateQueryResp)
 
 	// 模版新增
 	@handler TemplateCreateHandler

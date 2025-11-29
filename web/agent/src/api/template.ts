@@ -1,11 +1,11 @@
 import { Page } from "@/model/base"
 import { QueryRequest,  TemplateItem } from "@/model/template"
-import { ApiResponse, post } from "@/utils/request"
+import { ApiResponse, post,get } from "@/utils/request"
 
 
 // 保持向后兼容的API函数
 export async function listTemplates(query: QueryRequest): Promise<ApiResponse<Page<TemplateItem>>> {
-  return await post<Page<TemplateItem>>('/template', query)
+  return await get<Page<TemplateItem>>('/template', {...query})
 }
 
 export async function createTemplate(template: TemplateItem): Promise<ApiResponse<null>> {
