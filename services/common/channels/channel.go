@@ -3,6 +3,7 @@ package channels
 var (
 	senders = []ISender{
 		&DingTalkSender{},
+		&WorkWxSender{},
 	}
 )
 
