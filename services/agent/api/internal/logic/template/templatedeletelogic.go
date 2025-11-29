@@ -34,7 +34,10 @@ func (l *TemplateDeleteLogic) TemplateDelete(req *types.IDReq) error {
 		return fmt.Errorf("not find agent")
 	}
 	var template models.Template
-	if err := l.svcCtx.DB.Where("id = ? AND agent_id = ?", req.ID, agentID).First(&template).Error; err != nil {
+	if err := l.svcCtx.DB.Where(models.Template{
+		ID:      req.ID,
+		AgentID: agentID,
+	}).First(&template).Error; err != nil {
 		return err
 	}
 	if err := l.svcCtx.DB.Delete(&template).Error; err != nil {

@@ -34,8 +34,12 @@ func (l *ChannelCreateLogic) ChannelCreate(req *types.ChannelCreateReq) error {
 		return fmt.Errorf("not find agent")
 	}
 	var count int64
+	_ = l.svcCtx.DB.Model(&models.Channel{}).Where(&models.Channel{
+		AgentID: agentID,
+		Code:    req.Code,
+	}).Count(&count).Error
 	if count > 0 {
-		return fmt.Errorf("%s模版已存在", req.Code)
+		return fmt.Errorf("%s通道已存在", req.Code)
 	}
 	if err = l.svcCtx.DB.Model(&models.Channel{}).Create(
 		&models.Channel{

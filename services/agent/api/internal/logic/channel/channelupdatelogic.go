@@ -50,7 +50,7 @@ func (l *ChannelUpdateLogic) ChannelUpdate(req *types.ChannelUpdateReq) error {
 	if req.Status != nil {
 		updateData.Status = *req.Status
 	}
-	if err := l.svcCtx.DB.Model(&models.Channel{}).Where("id = ? AND agent_id = ?", req.ID, agentID).Updates(updateData).Error; err != nil {
+	if err := l.svcCtx.DB.Model(&models.Channel{}).Where(models.Channel{ID: req.ID, AgentID: agentID}).Updates(updateData).Error; err != nil {
 		return err
 	}
 	return nil

@@ -67,7 +67,7 @@ func (l *TemplateUpdateLogic) TemplateUpdate(req *types.TemplateUpdateReq) error
 		template.ChannelID = *req.ChannelID
 	}
 
-	if err := l.svcCtx.DB.Model(&template).Where("id = ? AND agent_id = ?", req.ID, agentID).Updates(template).Error; err != nil {
+	if err := l.svcCtx.DB.Model(&template).Where(models.Template{ID: req.ID, AgentID: agentID}).Updates(template).Error; err != nil {
 		return err
 	}
 	return nil

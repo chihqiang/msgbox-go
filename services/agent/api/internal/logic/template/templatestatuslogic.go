@@ -33,7 +33,10 @@ func (l *TemplateStatusLogic) TemplateStatus(req *types.IDStatusReq) error {
 	if err != nil {
 		return fmt.Errorf("not find agent")
 	}
-	if err := l.svcCtx.DB.Model(&models.Template{}).Where("id = ? AND agent_id = ?", req.ID, agentID).Update("status", req.Status).Error; err != nil {
+	if err := l.svcCtx.DB.Model(&models.Template{}).Where(models.Template{
+		ID:      req.ID,
+		AgentID: agentID,
+	}).Update("status", req.Status).Error; err != nil {
 		return err
 	}
 	return nil

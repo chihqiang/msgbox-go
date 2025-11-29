@@ -36,12 +36,19 @@ func (l *TemplateCreateLogic) TemplateCreate(req *types.TemplateCreateReq) error
 		return fmt.Errorf("not find agent")
 	}
 	var channel models.Channel
-	if err := l.svcCtx.DB.Where("id = ? AND agent_id = ?", req.ChannelID, agentID).First(&channel).Error; err != nil {
+	if err := l.svcCtx.DB.Model(&channel).Where(&models.Channel{ID: req.ChannelID, AgentID: agentID}).First(&channel).Error; err != nil {
 		if gorm.ErrRecordNotFound == err {
-			// 如果通道不存在，返回错误
 			return errors.New("指定的通道不存在")
 		}
 		return err
+	}
+	var count int64
+	_ = l.svcCtx.DB.Model(&models.Template{}).Where(&models.Template{
+		AgentID: agentID,
+		Code:    req.Code,
+	}).Count(&count).Error
+	if count > 0 {
+		return fmt.Errorf("%s模版已存在", req.Code)
 	}
 	template := &models.Template{
 		AgentID:    agentID,

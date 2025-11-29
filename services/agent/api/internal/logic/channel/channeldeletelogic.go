@@ -36,7 +36,7 @@ func (l *ChannelDeleteLogic) ChannelDelete(req *types.IDReq) error {
 		return fmt.Errorf("not find agent")
 	}
 	var channel models.Channel
-	if err := l.svcCtx.DB.Where("id = ? AND agent_id = ?", req.ID, agentID).First(&channel).Error; err != nil {
+	if err := l.svcCtx.DB.Where(models.Channel{ID: req.ID, AgentID: agentID}).First(&channel).Error; err != nil {
 		if gorm.ErrRecordNotFound == err {
 			return errors.New("通道不存在")
 		}
