@@ -29,11 +29,11 @@
       <!-- Right: Desktop Login/Logout Button -->
       <a-col>
         <!-- 登录按钮 - 未登录时显示 -->
-        <a-button v-if="!isLoggedIn" type="link" @click="navigateToLogin">
+        <a-button v-if="!isLoggedIn" type="primary" @click="navigateToLogin">
           登录
         </a-button>
         <!-- 退出按钮 - 已登录时显示 -->
-        <a-button v-else type="link" @click="handleLogout">
+        <a-button v-else type="default" @click="handleLogout">
           退出
         </a-button>
       </a-col>
