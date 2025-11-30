@@ -6,7 +6,8 @@ import (
 )
 
 func New() *Validator {
-	return &Validator{validate: validator.New()}
+	v := &Validator{validate: validator.New()}
+	return v
 }
 
 type Validator struct {

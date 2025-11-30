@@ -30,7 +30,7 @@
             </a-form-item>
 
             <!-- 密码输入 -->
-            <a-form-item label="密码" name="password" :rules="[{ required: true, message: '请输入密码' }]">
+            <a-form-item label="密码" name="password" :rules="[{ required: true, message: '请输入密码', min: 8 }]">
               <a-input-password v-model:value="formState.password" placeholder="••••••••" :visibility-toggle="true" />
             </a-form-item>
 
