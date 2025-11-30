@@ -98,6 +98,7 @@ type PaginationReq struct {
 type RecordItemResp struct {
 	ID            int64                  `json:"id"`
 	Receiver      string                 `json:"receiver"`
+	TraceID       string                 `json:"trace_id"`
 	ChannelName   string                 `json:"channel_name"`
 	ChannelConfig map[string]interface{} `json:"channel_config"`
 	VendorName    string                 `json:"vendor_name"`

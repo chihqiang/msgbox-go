@@ -59,6 +59,7 @@ func (l RecordQueryLogic) convert(channels []models.SendRecord) []types.RecordIt
 		items = append(items, types.RecordItemResp{
 			ID:            item.ID,
 			Receiver:      item.Receiver,
+			TraceID:       item.TraceID,
 			ChannelName:   item.Channel.Name,
 			ChannelConfig: models.DataTypesToMap(item.ChannelConfig),
 			VendorName:    item.VendorName,

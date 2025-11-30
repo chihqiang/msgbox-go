@@ -19,6 +19,7 @@ type ITask interface {
 type SendPipeline struct {
 	Log          logx.Logger
 	DB           *gorm.DB
+	TraceID      string
 	AgentNo      string
 	AgentSecret  string
 	TemplateCode string
@@ -33,7 +34,7 @@ func (p *SendPipeline) Check(ctx context.Context) error {
 	serial.Add(tasks.NewCheckParamTask(p.Log, p.AgentNo, p.AgentSecret, p.TemplateCode, p.Receivers, p.Variables).Task())
 	serial.Add(tasks.NewCheckAgentTask(p.Log, p.DB, p.AgentNo, p.AgentSecret).Task())
 	serial.Add(tasks.NewCheckTemplateTask(p.Log, p.DB, p.TemplateCode).Task())
-	serial.Add(tasks.NewCreateRecordTask(p.Log, p.DB, p.Receivers, p.Variables, p.Extra).Task())
+	serial.Add(tasks.NewCreateRecordTask(p.Log, p.DB, p.TraceID, p.Receivers, p.Variables, p.Extra).Task())
 	serial.Add(&workflow.Task{
 		Action: func(ctx context.Context) (context.Context, error) {
 			return ctx, nil

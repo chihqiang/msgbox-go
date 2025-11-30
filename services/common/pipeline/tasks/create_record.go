@@ -16,13 +16,14 @@ import (
 type CreateRecordTask struct {
 	Log       logx.Logger
 	DB        *gorm.DB
+	TraceID   string
 	Receivers []string
 	Variables map[string]string
 	Extra     map[string]interface{}
 }
 
-func NewCreateRecordTask(log logx.Logger, db *gorm.DB, receivers []string, variables map[string]string, extra map[string]interface{}) *CreateRecordTask {
-	crt := &CreateRecordTask{Log: log, DB: db, Receivers: receivers, Variables: variables, Extra: extra}
+func NewCreateRecordTask(log logx.Logger, db *gorm.DB, traceID string, receivers []string, variables map[string]string, extra map[string]interface{}) *CreateRecordTask {
+	crt := &CreateRecordTask{Log: log, DB: db, TraceID: traceID, Receivers: receivers, Variables: variables, Extra: extra}
 	return crt
 }
 
@@ -32,6 +33,7 @@ func (c *CreateRecordTask) Task() *workflow.Task {
 			now := time.Now()
 			batch := models.SendBatch{
 				BatchNo:       stringx.UUID(),
+				TraceID:       c.TraceID,
 				TotalCount:    len(c.Receivers),
 				Status:        models.SendBatchStatusPending,
 				ScheduledTime: &now,
@@ -45,6 +47,7 @@ func (c *CreateRecordTask) Task() *workflow.Task {
 					stringx.ReplaceVariables(batch.Template.Content, c.Variables),
 				}, "")
 				rc := &models.SendRecord{
+					TraceID:       c.TraceID,
 					Receiver:      s,
 					VendorName:    batch.Channel.VendorName,
 					ChannelConfig: batch.Channel.Config,

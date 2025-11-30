@@ -41,13 +41,14 @@ func (l *SendLogic) Send(req *types.SendRequest) (resp *types.SendResponse, err 
 		l.Logger.Errorf("Send missing valid password from ctx, username: %s", username)
 		return nil, errs.ErrAuthInvalid
 	}
-	send, err := l.sendPipeline(username, password, req)
+	traceID := trace.TraceIDFromContext(l.ctx)
+	send, err := l.sendPipeline(traceID, username, password, req)
 	if err != nil {
 		l.Logger.Errorf("Send failed, err: %v", err)
 		return nil, err
 	}
 	return &types.SendResponse{
-		TraceID:      trace.TraceIDFromContext(l.ctx),
+		TraceID:      traceID,
 		BatchNo:      send.BatchNo,
 		FailCount:    send.FailCount,
 		SuccessCount: send.SuccessCount,
@@ -55,10 +56,11 @@ func (l *SendLogic) Send(req *types.SendRequest) (resp *types.SendResponse, err 
 	}, nil
 }
 
-func (l *SendLogic) sendPipeline(agentNo, agentSecret string, req *types.SendRequest) (*models.SendBatch, error) {
+func (l *SendLogic) sendPipeline(traceID, agentNo, agentSecret string, req *types.SendRequest) (*models.SendBatch, error) {
 	sendPipeline := pipeline.SendPipeline{
 		DB:           l.svcCtx.DB,
 		Log:          l.Logger,
+		TraceID:      traceID,
 		AgentNo:      agentNo,
 		AgentSecret:  agentSecret,
 		TemplateCode: req.TemplateCode,

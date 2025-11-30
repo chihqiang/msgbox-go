@@ -27,6 +27,7 @@ type SendBatch struct {
 	ChannelID     int64          `gorm:"column:channel_id;not null;index;comment:通道ID" json:"channel_id"`
 	TemplateID    int64          `gorm:"column:template_id;comment:模板ID" json:"template_id"`
 	BatchNo       string         `gorm:"column:batch_no;size:64;uniqueIndex;not null;comment:批次唯一编号" json:"batch_no"`
+	TraceID       string         `gorm:"column:trace_id;size:100;not null;comment:链路ID" json:"trace_id"`
 	TotalCount    int            `gorm:"column:total_count;default:0;comment:总消息条数" json:"total_count"`
 	SuccessCount  int            `gorm:"column:success_count;default:0;comment:发送成功条数" json:"success_count"`
 	FailCount     int            `gorm:"column:fail_count;default:0;comment:发送失败条数" json:"fail_count"`
@@ -49,12 +50,12 @@ func (b *SendBatch) TableName() string {
 }
 
 type SendRecord struct {
-	ID         int64 `gorm:"primaryKey;autoIncrement" json:"id"`
-	BatchID    int64 `gorm:"column:batch_id;index;comment:所属批次ID" json:"batch_id"`
-	AgentID    int64 `gorm:"column:agent_id;not null;index;comment:代理商ID" json:"agent_id"`
-	ChannelID  int64 `gorm:"column:channel_id;not null;index;comment:通道ID" json:"channel_id"`
-	TemplateID int64 `gorm:"column:template_id;not null;comment:模板ID，可空" json:"template_id"`
-
+	ID            int64          `gorm:"primaryKey;autoIncrement" json:"id"`
+	BatchID       int64          `gorm:"column:batch_id;index;comment:所属批次ID" json:"batch_id"`
+	AgentID       int64          `gorm:"column:agent_id;not null;index;comment:代理商ID" json:"agent_id"`
+	ChannelID     int64          `gorm:"column:channel_id;not null;index;comment:通道ID" json:"channel_id"`
+	TemplateID    int64          `gorm:"column:template_id;not null;comment:模板ID，可空" json:"template_id"`
+	TraceID       string         `gorm:"column:trace_id;size:100;not null;comment:链路ID" json:"trace_id"`
 	Receiver      string         `gorm:"column:receiver;size:100;not null;comment:发送目标（手机号/邮箱）" json:"receiver"`
 	VendorName    string         `gorm:"column:vendor_name;size:50;not null;comment:服务商名称" json:"vendor_name"`
 	ChannelConfig datatypes.JSON `gorm:"column:channel_config;type:JSON;not null;comment:通道配置" json:"channel_config"`
