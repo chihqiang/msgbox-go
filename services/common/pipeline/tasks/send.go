@@ -71,7 +71,7 @@ func (s *SendTask) success(response map[string]any) error {
 		}
 		// 更新批次统计
 		if err := tx.Model(&models.SendBatch{}).
-			Where("id = ?", s.record.BatchID).
+			Where(&models.SendBatch{ID: s.record.BatchID}).
 			UpdateColumn("success_count", gorm.Expr("success_count + ?", 1)).Error; err != nil {
 			s.Log.Error("update send batch success count failed, err: %v", err)
 			return err
@@ -98,7 +98,7 @@ func (s *SendTask) fail(errMsg error, response map[string]any) error {
 			return errs.ErrDB
 		}
 		if err := tx.Model(&models.SendBatch{}).
-			Where("id = ?", s.record.BatchID).
+			Where(&models.SendBatch{ID: s.record.BatchID}).
 			UpdateColumn("fail_count", gorm.Expr("fail_count + ?", 1)).Error; err != nil {
 			s.Log.Error("update send batch fail count failed, err: %v", err)
 			return errs.ErrDB

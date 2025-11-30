@@ -35,7 +35,6 @@ func (c *CreateRecordTask) Task() *workflow.Task {
 				BatchNo:       stringx.UUID(),
 				TraceID:       c.TraceID,
 				TotalCount:    len(c.Receivers),
-				Status:        models.SendBatchStatusPending,
 				ScheduledTime: &now,
 				Agent:         ctx.Value(CtxModelAgent).(*models.Agent),
 				Channel:       ctx.Value(CtxModelChannel).(*models.Channel),

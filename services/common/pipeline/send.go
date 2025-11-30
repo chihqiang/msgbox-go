@@ -61,7 +61,10 @@ func (p *SendPipeline) Send(ctx context.Context) error {
 	// 开始发送
 	serial.Add(&workflow.Task{
 		Action: func(ctx context.Context) (context.Context, error) {
-			if err := p.DB.Model(&models.SendBatch{}).Where("id = ?", p.sendBatch.ID).Update("send_start_time", time.Now()).Error; err != nil {
+			now := time.Now()
+			if err := p.DB.Model(&models.SendBatch{}).
+				Where(&models.SendBatch{ID: p.sendBatch.ID}).
+				Updates(&models.SendBatch{SendStartTime: &now}).Error; err != nil {
 				p.Log.Error("update send batch start time failed, err: %v", err)
 				return ctx, errs.ErrDB
 			}
@@ -82,7 +85,10 @@ func (p *SendPipeline) Send(ctx context.Context) error {
 	//结束发送
 	serial.Add(&workflow.Task{
 		Action: func(ctx context.Context) (context.Context, error) {
-			if err := p.DB.Model(&models.SendBatch{}).Where("id = ?", p.sendBatch.ID).Update("send_end_time", time.Now()).Error; err != nil {
+			now := time.Now()
+			if err := p.DB.Model(&models.SendBatch{}).
+				Where(&models.SendBatch{ID: p.sendBatch.ID}).
+				Updates(&models.SendBatch{SendEndTime: &now}).Error; err != nil {
 				p.Log.Error("update send batch end time failed, err: %v", err)
 				return ctx, errs.ErrDB
 			}

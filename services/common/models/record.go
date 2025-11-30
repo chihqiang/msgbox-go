@@ -8,13 +8,6 @@ import (
 )
 
 const (
-	SendBatchStatusPending  = 1 // 待发送
-	SendBatchStatusSending  = 2 // 发送中
-	SendBatchStatusFinished = 3 // 已完成
-	SendBatchStatusFailed   = 4 // 异常/失败
-)
-
-const (
 	SendRecordStatusPending = 1 // 待发送
 	SendRecordStatusSending = 2 // 发送中
 	SendRecordStatusSuccess = 3 // 成功
@@ -31,18 +24,16 @@ type SendBatch struct {
 	TotalCount    int            `gorm:"column:total_count;default:0;comment:总消息条数" json:"total_count"`
 	SuccessCount  int            `gorm:"column:success_count;default:0;comment:发送成功条数" json:"success_count"`
 	FailCount     int            `gorm:"column:fail_count;default:0;comment:发送失败条数" json:"fail_count"`
-	Status        int            `gorm:"column:status;not null;default:1;comment:批次状态(1=待发送,2=发送中,3=完成,4=异常)" json:"status"`
 	ScheduledTime *time.Time     `gorm:"column:scheduled_time;comment:计划发送时间" json:"scheduled_time"`
 	SendStartTime *time.Time     `gorm:"column:send_start_time;comment:实际开始发送时间" json:"send_start_time"`
 	SendEndTime   *time.Time     `gorm:"column:send_end_time;comment:实际结束发送时间" json:"send_end_time"`
 	CreatedAt     time.Time      `gorm:"column:created_at;autoCreateTime:nano" json:"created_at"`
 	UpdatedAt     time.Time      `gorm:"column:updated_at;autoUpdateTime:nano" json:"updated_at"`
 	DeletedAt     gorm.DeletedAt `gorm:"column:deleted_at;index" json:"-"`
-
-	Agent    *Agent        `gorm:"foreignKey:AgentID" json:"agent,omitempty"`
-	Channel  *Channel      `gorm:"foreignKey:ChannelID" json:"channel,omitempty"`
-	Template *Template     `gorm:"foreignKey:TemplateID" json:"template,omitempty"`
-	Records  []*SendRecord `gorm:"foreignKey:BatchID" json:"records,omitempty"`
+	Agent         *Agent         `gorm:"foreignKey:AgentID" json:"agent,omitempty"`
+	Channel       *Channel       `gorm:"foreignKey:ChannelID" json:"channel,omitempty"`
+	Template      *Template      `gorm:"foreignKey:TemplateID" json:"template,omitempty"`
+	Records       []*SendRecord  `gorm:"foreignKey:BatchID" json:"records,omitempty"`
 }
 
 func (b *SendBatch) TableName() string {
