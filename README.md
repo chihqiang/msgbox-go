@@ -48,16 +48,22 @@ MsgBox 旨在解决分布式系统中的消息通知管理难题，通过统一�
 #### 1. 克隆项目
 
 ```bash
-git clone https://github.com/yourusername/msgbox-go.git
+git clone https://github.com/chihqiang/msgbox-go.git
 cd msgbox-go
 ```
 
 #### 2. 配置数据库
 
-修改配置文件，设置数据库连接信息：
+修改配置文件`services/agent/api/etc/agent-api.yaml`和`services/gateway/api/etc/gateway-api.yaml`，设置数据库连接信息：
 
 ```bash
-# 编辑配置文件
+DB:
+  DBType: mysql
+  Username: root
+  Password: "123456"
+  Host: 127.0.0.1
+  Port: 3306
+  Database: msgbox
 ```
 
 #### 3. 启动服务
