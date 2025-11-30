@@ -3,14 +3,14 @@
     <a-row align="middle" justify="space-between" style="width: 100%; height: 100%;">
       <!-- Left: Logo -->
       <a-col>
-        <a-space>
+        <a-space :span="6">
           <img src="@/assets/logo.svg" alt="MSGBOX Logo" style="width: 48px; height: 48px;" />
           <span style="font-size: 18px; font-weight: 700;">MSGBOX</span>
         </a-space>
       </a-col>
 
       <!-- Center: Desktop Navigation -->
-      <a-col>
+      <a-col :span="12">
         <a-menu
           mode="horizontal"
           :selected-keys="[currentPath]"
@@ -27,7 +27,7 @@
       </a-col>
 
       <!-- Right: Desktop Login/Logout Button -->
-      <a-col>
+      <a-col :span="1">
         <!-- 登录按钮 - 未登录时显示 -->
         <a-button v-if="!isLoggedIn" type="primary" @click="navigateToLogin">
           登录
