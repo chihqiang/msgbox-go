@@ -12,14 +12,14 @@
         <a-card style="margin-bottom: 24px;">
           <a-space size="middle" wrap>
             <a-input-search v-model:value="searchKeyword" placeholder="搜索关键词（接收人、通道名称等）" allow-clear style="width: 300px;"
-              @search="handleSearch" :loading="loading" />
-            <a-button type="primary" @click="handleSearch" :loading="loading">
+              @search="handleSearch"/>
+            <a-button type="primary" @click="handleSearch">
               <template #icon>
                 <search-outlined />
               </template>
               搜索
             </a-button>
-            <a-button @click="handleReset" :loading="loading">
+            <a-button @click="handleReset">
               重置
             </a-button>
           </a-space>

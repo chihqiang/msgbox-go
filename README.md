@@ -79,23 +79,23 @@ docker-compose -f docker-compose-env.yml up -d
 ```bash
 # 启动 Agent 服务
 cd services/agent/api
-go run main.go -f etc/agent-api.yaml
+go run agent.go -f etc/agent-api.yaml
 
 # 启动 Gateway 服务（在另一个终端）
 cd services/gateway/api
-go run main.go -f etc/gateway-api.yaml
+go run gateway.go -f etc/gateway-api.yaml
 ```
 
 **方式二：构建后运行（生产环境推荐）**
 ```bash
 # 构建并启动 Agent 服务
 cd services/agent/api
-go build -o agent-api main.go
+go build -ldflags="-s -w" -tags no_k8s  -o agent-api agent.go
 ./agent-api -f etc/agent-api.yaml
 
 # 构建并启动 Gateway 服务（在另一个终端）
 cd services/gateway/api
-go build -o gateway-api main.go
+go build -ldflags="-s -w" -tags no_k8s -o gateway-api gateway.go
 ./gateway-api -f etc/gateway-api.yaml
 ```
 
@@ -132,8 +132,8 @@ pnpm run dev
 ### 后端开发
 
 1. **创建新的消息通道**：
-   - 在 `services/common/channels/` 目录下创建新的发送器实现
-   - 实现 `channels.ISender` 接口
+   - 在 `services/common/channels/senders` 目录下创建新的发送器实现
+   - 实现 `senders.ISender` 接口
 
 2. **添加新的 API**：
    - 使用 goctl 工具生成 API 代码
