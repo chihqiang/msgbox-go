@@ -5,7 +5,7 @@
       <a-layout-sider width="40%" class="register-brand">
         <div class="brand-content">
           <img src="@/assets/logo.svg" alt="MSGBOX Logo" class="brand-logo" />
-          <a-typography-title level="2" class="brand-title">MSGBOX</a-typography-title>
+          <a-typography-title :level="2" class="brand-title">MSGBOX</a-typography-title>
           <a-typography-paragraph class="brand-description">企业级云消息推送平台</a-typography-paragraph>
           <div class="brand-features">
             <a-typography-paragraph class="features-text">安全 · 稳定 · 高效 · 可靠</a-typography-paragraph>
@@ -18,7 +18,7 @@
         <div class="form-wrapper">
           <!-- 注册表单标题 -->
           <div class="form-header">
-            <a-typography-title level="2" class="form-title">创建账号</a-typography-title>
+            <a-typography-title :level="2" class="form-title">创建账号</a-typography-title>
             <a-typography-paragraph class="form-subtitle">填写以下信息完成注册</a-typography-paragraph>
           </div>
 

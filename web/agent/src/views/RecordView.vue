@@ -4,7 +4,7 @@
       <div style="max-width: 1200px; margin: 0 auto;">
         <!-- 页面标题和说明 -->
         <div style="margin-bottom: 32px;">
-          <a-typography-title level="2">发送记录</a-typography-title>
+          <a-typography-title :level="2">发送记录</a-typography-title>
           <a-typography-paragraph>查看消息发送记录，支持搜索和分页浏览。</a-typography-paragraph>
         </div>
 
@@ -28,8 +28,7 @@
         <!-- 记录列表卡片 -->
         <a-card>
           <a-table :columns="columns" :data-source="records" :pagination="pagination" row-key="id"
-            :loading="loading" size="middle" scroll={{ x: 1200 }}>
-
+            :loading="loading" size="middle" :scroll="{ x: 1200 }">
           </a-table>
         </a-card>
 

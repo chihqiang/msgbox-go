@@ -3,7 +3,7 @@
     <a-layout-content style="padding: 24px; background-color: #f5f5f5;">
       <div style="max-width: 1200px; margin: 0 auto;">
         <!-- 页面标题和说明 -->
-        <a-typography-title level="2" style="margin-bottom: 8px;">模版管理</a-typography-title>
+        <a-typography-title :level="2" style="margin-bottom: 8px;">模版管理</a-typography-title>
         <a-typography-paragraph style="margin-bottom: 32px;">查看和管理您的消息模版，支持创建、编辑和删除操作。</a-typography-paragraph>
 
         <!-- 搜索和创建按钮区域 -->

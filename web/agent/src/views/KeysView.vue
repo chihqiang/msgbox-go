@@ -4,13 +4,13 @@
       <div style="max-width: 1200px; margin: 0 auto;">
         <!-- 页面标题和说明 -->
         <div style="margin-bottom: 32px;">
-          <a-typography-title level="2">API 密钥管理</a-typography-title>
+          <a-typography-title :level="2">API 密钥管理</a-typography-title>
           <a-typography-paragraph>管理您的 API Key 和密钥，用于调用 WPUSH 的推送服务接口。</a-typography-paragraph>
         </div>
 
         <!-- 密钥管理区域 -->
         <a-card style="margin-bottom: 24px;">
-          <a-row gutter="[16, 16]">
+          <a-row :gutter="[16, 16]">
             <!-- API Key 卡片 -->
             <a-col :span="24" :lg="12">
               <a-card>

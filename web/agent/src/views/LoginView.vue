@@ -5,7 +5,7 @@
       <a-layout-sider width="40%" class="login-brand">
         <div class="brand-content">
           <img src="@/assets/logo.svg" alt="MSGBOX Logo" class="brand-logo" />
-          <a-typography-title level="2" class="brand-title">MSGBOX</a-typography-title>
+          <a-typography-title :level="2" class="brand-title">MSGBOX</a-typography-title>
           <a-typography-paragraph class="brand-description">企业级云消息推送平台</a-typography-paragraph>
           <div class="brand-features">
             <p>安全 · 稳定 · 高效 · 可靠</p>
@@ -18,7 +18,7 @@
         <div class="form-wrapper">
           <!-- 登录表单标题 -->
           <div class="form-header">
-            <a-typography-title level="2" class="form-title">欢迎回来</a-typography-title>
+            <a-typography-title :level="2" class="form-title">欢迎回来</a-typography-title>
             <a-typography-paragraph class="form-subtitle">请输入您的账号信息登录</a-typography-paragraph>
           </div>
 

@@ -1,13 +1,12 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import HomeView from '@/views/HomeView.vue'
-import LoginView from '@/views/LoginView.vue'
-import RegisterView from '@/views/RegisterView.vue'
-import KeysView from '@/views/KeysView.vue'
-import ChannelView from '@/views/ChannelView.vue'
-import TemplateView from '@/views/TemplateView.vue'
-import RecordView from '@/views/RecordView.vue'
 import DefaultLayout from '@/layouts/DefaultLayout.vue';
-
+const HomeView = () => import('@/views/HomeView.vue')
+const LoginView = () => import('@/views/LoginView.vue')
+const RegisterView = () => import('@/views/RegisterView.vue')
+const KeysView = () => import('@/views/KeysView.vue')
+const ChannelView = () => import('@/views/ChannelView.vue')
+const TemplateView = () => import('@/views/TemplateView.vue')
+const RecordView = () => import('@/views/RecordView.vue')
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),

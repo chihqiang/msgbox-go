@@ -4,7 +4,7 @@
       <div style="max-width: 1200px; margin: 0 auto;">
         <!-- 页面标题和说明 -->
         <div style="margin-bottom: 32px;">
-          <a-typography-title level="2">通道管理</a-typography-title>
+          <a-typography-title :level="2">通道管理</a-typography-title>
           <a-typography-paragraph>查看和管理您的消息发送通道，支持创建、编辑和删除操作。</a-typography-paragraph>
         </div>
 
