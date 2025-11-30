@@ -5,14 +5,12 @@ package record
 
 import (
 	"chihqiang/msgbox-go/pkg/timex"
+	"chihqiang/msgbox-go/services/agent/api/internal/svc"
+	"chihqiang/msgbox-go/services/agent/api/internal/types"
 	"chihqiang/msgbox-go/services/common/models"
 	"context"
 	"encoding/json"
 	"fmt"
-	"gorm.io/gorm"
-
-	"chihqiang/msgbox-go/services/agent/api/internal/svc"
-	"chihqiang/msgbox-go/services/agent/api/internal/types"
 
 	"github.com/zeromicro/go-zero/core/logx"
 )
@@ -36,14 +34,14 @@ func (l *RecordQueryLogic) RecordQuery(req *types.RecordQueryReq) (resp *types.R
 	if err != nil {
 		return nil, fmt.Errorf("not find agent")
 	}
-	total, sendRecords, err := models.NewPagination[models.SendRecord](l.svcCtx.DB).QueryPage(req.Page, req.Size, func(tx *gorm.DB) *gorm.DB {
-		tx = tx.Preload("Channel").Where("agent_id = ?", agentID)
-		if req.Keywords != "" {
-			keyword := "%" + req.Keywords + "%"
-			tx = tx.Where("receiver LIKE ?", keyword)
-		}
-		return tx
-	})
+
+	db := l.svcCtx.DB.Model(&models.SendRecord{}).Preload("Channel").Where("agent_id = ?", agentID)
+	if req.Keywords != "" {
+		keyword := "%" + req.Keywords + "%"
+		db = db.Where("receiver LIKE ?", keyword)
+	}
+
+	total, sendRecords, err := models.Page[models.SendRecord](db, req.Page, req.Size)
 	if err != nil {
 		return nil, err
 	}

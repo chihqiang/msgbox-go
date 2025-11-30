@@ -32,6 +32,7 @@ type Config struct {
 	SSLMode      string `json:",default=disable"`   // PostgreSQL 专用 SSL 模式 ("disable", "require", 等)
 	MaxIdleConns int    `json:",default=10"`        // 连接池最大空闲连接数
 	MaxOpenConns int    `json:",default=100"`       // 连接池最大打开连接数
+	AutoMigrate  bool   `json:",default=true"`
 }
 
 func Connect(cfg Config, plugin ...gorm.Plugin) (*gorm.DB, error) {
@@ -81,6 +82,11 @@ func Connect(cfg Config, plugin ...gorm.Plugin) (*gorm.DB, error) {
 	sqlDB.SetMaxOpenConns(cfg.MaxOpenConns)
 	// SetConnMaxLifetime 设置了连接可复用的最大时间
 	sqlDB.SetConnMaxLifetime(time.Hour)
+	if cfg.AutoMigrate {
+		if err := Migrate(db); err != nil {
+			return db, err
+		}
+	}
 	return db, nil
 }
 
@@ -106,16 +112,7 @@ func DataTypesToMap(j datatypes.JSON) map[string]interface{} {
 	return m
 }
 
-type Pagination[T any] struct {
-	DB *gorm.DB
-}
-
-func NewPagination[T any](db *gorm.DB) *Pagination[T] {
-	return &Pagination[T]{DB: db}
-}
-
-func (p *Pagination[T]) QueryPage(page, pageSize int, query func(tx *gorm.DB) *gorm.DB) (total int64, data []T, err error) {
-	// normalize
+func Page[T any](db *gorm.DB, page, pageSize int) (total int64, data []T, err error) {
 	if page <= 0 {
 		page = 1
 	}
@@ -126,28 +123,13 @@ func (p *Pagination[T]) QueryPage(page, pageSize int, query func(tx *gorm.DB) *g
 	if pageSize > maxPageSize {
 		pageSize = maxPageSize
 	}
-
-	// Safe model inference
-	var entity T
-	tx := p.DB.Model(&entity)
-
-	if query != nil {
-		tx = query(tx)
-	}
-
-	// Count safely
-	countTx := tx.Session(&gorm.Session{})
-	if err = countTx.Count(&total).Error; err != nil {
-		return
-	}
-
+	db = db.Session(&gorm.Session{})
+	_ = db.Count(&total).Error
 	if total == 0 {
 		return total, []T{}, nil
 	}
-
-	offset := (page - 1) * pageSize
-
-	// Query data
-	err = tx.Limit(pageSize).Offset(offset).Find(&data).Error
-	return total, data, err
+	if err = db.Limit(pageSize).Offset((page - 1) * pageSize).Find(&data).Error; err != nil {
+		return
+	}
+	return
 }

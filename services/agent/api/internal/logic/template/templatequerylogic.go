@@ -11,8 +11,6 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
-	"gorm.io/gorm"
-
 	"github.com/zeromicro/go-zero/core/logx"
 )
 
@@ -35,14 +33,12 @@ func (l *TemplateQueryLogic) TemplateQuery(req *types.TemplateQueryReq) (resp *t
 	if err != nil {
 		return nil, fmt.Errorf("not find agent")
 	}
-	total, templates, err := models.NewPagination[models.Template](l.svcCtx.DB).QueryPage(req.Page, req.Size, func(tx *gorm.DB) *gorm.DB {
-		tx = tx.Where("agent_id = ?", agentID)
-		if req.Keywords != "" {
-			keyword := "%" + req.Keywords + "%"
-			tx = tx.Where("code LIKE ?", keyword).Or("vendor_code LIKE ?", keyword).Or("content LIKE ?", keyword)
-		}
-		return tx
-	})
+	db := l.svcCtx.DB.Model(&models.Template{}).Where("agent_id = ?", agentID)
+	if req.Keywords != "" {
+		keyword := "%" + req.Keywords + "%"
+		db = db.Where("code LIKE ?", keyword).Or("vendor_code LIKE ?", keyword).Or("content LIKE ?", keyword)
+	}
+	total, templates, err := models.Page[models.Template](db, req.Page, req.Size)
 	if err != nil {
 		return nil, err
 	}
