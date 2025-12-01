@@ -72,8 +72,6 @@ import { message } from 'ant-design-vue'
 import { login } from '@/api/auth'
 import { setToken } from '@/utils/cookie'
 import { useRouter } from 'vue-router'
-// import type { LoginRequest } from '@/api/auth'
-// import { setToken, setJson, set } from '@/utils/cookie'
 // 路由实例
 const router = useRouter()
 // 表单状态
