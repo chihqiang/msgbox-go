@@ -77,16 +77,8 @@ const columns: TableColumnsType<ChannelItem> = [
   },
   {
     title: '服务商名称',
-    dataIndex: 'vendor_name',
-    key: 'vendor_name',
-    customRender: ({ text }) => {
-      const vendorMap: Record<string, string> = {
-        dingtalk: '钉钉机器人',
-        wechat: '微信公众号',
-        smtp: 'SMTP邮件'
-      };
-      return vendorMap[text] || text;
-    }
+    dataIndex: 'vendor_name_label',
+    key: 'vendor_name'
   },
   {
     title: '通道配置',

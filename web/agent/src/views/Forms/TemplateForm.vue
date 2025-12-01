@@ -80,8 +80,6 @@ const formModel = ref<TemplateItem | null>(null)
 const rules = reactive({
   name: [{ required: true, message: '请输入模板名称', trigger: 'blur' }],
   code: [{ required: true, message: '请输入模板编码', trigger: 'blur' }],
-  vendor_code: [{ required: true, message: '请输入服务商编码', trigger: 'blur' }],
-  signature: [{ required: true, message: '请输入签名', trigger: 'blur' }],
   content: [{ required: true, message: '请输入模板内容', trigger: 'blur' }],
   channel_id: [{ required: true, message: '请选择通道', trigger: ['blur', 'change'] }],
 })

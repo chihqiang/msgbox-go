@@ -7,6 +7,7 @@ import (
 	"chihqiang/msgbox-go/pkg/timex"
 	"chihqiang/msgbox-go/services/agent/api/internal/svc"
 	"chihqiang/msgbox-go/services/agent/api/internal/types"
+	"chihqiang/msgbox-go/services/common/channels/senders"
 	"chihqiang/msgbox-go/services/common/models"
 	"context"
 	"encoding/json"
@@ -53,16 +54,18 @@ func (l *ChannelQueryLogic) ChannelQuery(req *types.ChannelQueryReq) (resp *type
 func (l ChannelQueryLogic) convert(channels []models.Channel) []types.ChannelItemResp {
 	items := make([]types.ChannelItemResp, 0, len(channels))
 	for _, item := range channels {
+		vendor, _ := senders.Get(item.VendorName)
 		items = append(items, types.ChannelItemResp{
-			ID:         item.ID,
-			AgentID:    item.AgentID,
-			Code:       item.Code,
-			Name:       item.Name,
-			VendorName: item.VendorName,
-			Config:     models.DataTypesToMap(item.Config),
-			Status:     item.Status,
-			CreatedAt:  timex.FormatDate(item.CreatedAt),
-			UpdatedAt:  timex.FormatDate(item.UpdatedAt),
+			ID:              item.ID,
+			AgentID:         item.AgentID,
+			Code:            item.Code,
+			Name:            item.Name,
+			VendorName:      item.VendorName,
+			VendorNameLabel: vendor.Label,
+			Config:          models.DataTypesToMap(item.Config),
+			Status:          item.Status,
+			CreatedAt:       timex.FormatDate(item.CreatedAt),
+			UpdatedAt:       timex.FormatDate(item.UpdatedAt),
 		})
 	}
 	return items

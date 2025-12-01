@@ -12,15 +12,16 @@ type ChannelCreateReq struct {
 }
 
 type ChannelItemResp struct {
-	ID         int64                  `json:"id"`
-	AgentID    int64                  `json:"agent_id"`
-	Code       string                 `json:"code"`
-	Name       string                 `json:"name"`
-	VendorName string                 `json:"vendor_name"`
-	Config     map[string]interface{} `json:"config"`
-	Status     bool                   `json:"status"`
-	CreatedAt  string                 `json:"created_at"`
-	UpdatedAt  string                 `json:"updated_at"`
+	ID              int64                  `json:"id"`
+	AgentID         int64                  `json:"agent_id"`
+	Code            string                 `json:"code"`
+	Name            string                 `json:"name"`
+	VendorName      string                 `json:"vendor_name"`
+	VendorNameLabel string                 `json:"vendor_name_label"`
+	Config          map[string]interface{} `json:"config"`
+	Status          bool                   `json:"status"`
+	CreatedAt       string                 `json:"created_at"`
+	UpdatedAt       string                 `json:"updated_at"`
 }
 
 type ChannelQueryReq struct {

@@ -64,14 +64,14 @@ import { createTemplate, deleteTemplate, listTemplates, updateTemplate } from '@
 // 表格列配置
 const columns: TableColumnsType<TemplateItem> = [
   {
-    title: '模版名称',
-    dataIndex: 'name',
-    key: 'name'
-  },
-  {
     title: '模版编码',
     dataIndex: 'code',
     key: 'code'
+  },
+  {
+    title: '模版名称',
+    dataIndex: 'name',
+    key: 'name'
   },
   {
     title: '服务商编码',
