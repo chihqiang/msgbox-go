@@ -8,7 +8,6 @@ import (
 	"chihqiang/msgbox-go/services/agent/api/internal/types"
 	"chihqiang/msgbox-go/services/common/models"
 	"context"
-	"encoding/json"
 	"errors"
 	"fmt"
 	"gorm.io/gorm"
@@ -31,9 +30,9 @@ func NewChannelDeleteLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Cha
 }
 
 func (l *ChannelDeleteLogic) ChannelDelete(req *types.IDReq) error {
-	agentID, err := l.ctx.Value(types.JWTAgentID).(json.Number).Int64()
+	agentID, err := types.GetAgentID(l.ctx)
 	if err != nil {
-		return fmt.Errorf("not find agent")
+		return err
 	}
 	var channel models.Channel
 	if err := l.svcCtx.DB.Where(models.Channel{ID: req.ID, AgentID: agentID}).First(&channel).Error; err != nil {

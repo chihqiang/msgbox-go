@@ -9,9 +9,6 @@ import (
 	"chihqiang/msgbox-go/services/agent/api/internal/types"
 	"chihqiang/msgbox-go/services/common/models"
 	"context"
-	"encoding/json"
-	"fmt"
-
 	"github.com/zeromicro/go-zero/core/logx"
 )
 
@@ -30,9 +27,9 @@ func NewInfoLogic(ctx context.Context, svcCtx *svc.ServiceContext) *InfoLogic {
 }
 
 func (l *InfoLogic) Info() (resp *types.InfoResp, err error) {
-	agentID, err := l.ctx.Value(types.JWTAgentID).(json.Number).Int64()
+	agentID, err := types.GetAgentID(l.ctx)
 	if err != nil {
-		return nil, fmt.Errorf("not find agent")
+		return nil, err
 	}
 	var agent models.Agent
 	if err := l.svcCtx.DB.Model(&agent).First(&agent, agentID).Error; err != nil {

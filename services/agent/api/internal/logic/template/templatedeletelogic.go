@@ -8,9 +8,6 @@ import (
 	"chihqiang/msgbox-go/services/agent/api/internal/types"
 	"chihqiang/msgbox-go/services/common/models"
 	"context"
-	"encoding/json"
-	"fmt"
-
 	"github.com/zeromicro/go-zero/core/logx"
 )
 
@@ -29,9 +26,9 @@ func NewTemplateDeleteLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Te
 }
 
 func (l *TemplateDeleteLogic) TemplateDelete(req *types.IDReq) error {
-	agentID, err := l.ctx.Value(types.JWTAgentID).(json.Number).Int64()
+	agentID, err := types.GetAgentID(l.ctx)
 	if err != nil {
-		return fmt.Errorf("not find agent")
+		return err
 	}
 	var template models.Template
 	if err := l.svcCtx.DB.Where(models.Template{

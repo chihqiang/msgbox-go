@@ -9,8 +9,6 @@ import (
 	"chihqiang/msgbox-go/services/agent/api/internal/types"
 	"chihqiang/msgbox-go/services/common/models"
 	"context"
-	"encoding/json"
-	"fmt"
 	"github.com/zeromicro/go-zero/core/logx"
 )
 
@@ -29,9 +27,9 @@ func NewTemplateQueryLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Tem
 }
 
 func (l *TemplateQueryLogic) TemplateQuery(req *types.TemplateQueryReq) (resp *types.TemplateQueryResp, err error) {
-	agentID, err := l.ctx.Value(types.JWTAgentID).(json.Number).Int64()
+	agentID, err := types.GetAgentID(l.ctx)
 	if err != nil {
-		return nil, fmt.Errorf("not find agent")
+		return nil, err
 	}
 	db := l.svcCtx.DB.Model(&models.Template{}).Where("agent_id = ?", agentID)
 	if req.Keywords != "" {

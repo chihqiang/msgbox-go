@@ -9,9 +9,6 @@ import (
 	"chihqiang/msgbox-go/services/agent/api/internal/types"
 	"chihqiang/msgbox-go/services/common/models"
 	"context"
-	"encoding/json"
-	"fmt"
-
 	"github.com/zeromicro/go-zero/core/logx"
 )
 
@@ -30,17 +27,15 @@ func NewRecordQueryLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Recor
 }
 
 func (l *RecordQueryLogic) RecordQuery(req *types.RecordQueryReq) (resp *types.RecordQueryResp, err error) {
-	agentID, err := l.ctx.Value(types.JWTAgentID).(json.Number).Int64()
+	agentID, err := types.GetAgentID(l.ctx)
 	if err != nil {
-		return nil, fmt.Errorf("not find agent")
+		return nil, err
 	}
-
 	db := l.svcCtx.DB.Model(&models.SendRecord{}).Preload("Channel").Where("agent_id = ?", agentID)
 	if req.Keywords != "" {
 		keyword := "%" + req.Keywords + "%"
 		db = db.Where("receiver LIKE ?", keyword)
 	}
-
 	total, sendRecords, err := models.Page[models.SendRecord](db, req.Page, req.Size)
 	if err != nil {
 		return nil, err

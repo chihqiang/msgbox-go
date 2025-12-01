@@ -6,8 +6,6 @@ package agetent
 import (
 	"chihqiang/msgbox-go/services/common/models"
 	"context"
-	"encoding/json"
-	"fmt"
 	"github.com/samber/lo"
 
 	"chihqiang/msgbox-go/services/agent/api/internal/svc"
@@ -31,9 +29,9 @@ func NewResetSecretLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Reset
 }
 
 func (l *ResetSecretLogic) ResetSecret() (resp *types.ResetSecretResp, err error) {
-	agentID, err := l.ctx.Value(types.JWTAgentID).(json.Number).Int64()
+	agentID, err := types.GetAgentID(l.ctx)
 	if err != nil {
-		return nil, fmt.Errorf("not find agent")
+		return nil, err
 	}
 	agentSecret := lo.RandomString(32, lo.AlphanumericCharset)
 	if err := l.svcCtx.DB.Model(&models.Agent{}).Where(models.Agent{ID: agentID}).Updates(&models.Agent{AgentSecret: agentSecret}).Error; err != nil {

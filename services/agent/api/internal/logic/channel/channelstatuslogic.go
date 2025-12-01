@@ -8,9 +8,6 @@ import (
 	"chihqiang/msgbox-go/services/agent/api/internal/types"
 	"chihqiang/msgbox-go/services/common/models"
 	"context"
-	"encoding/json"
-	"fmt"
-
 	"github.com/zeromicro/go-zero/core/logx"
 )
 
@@ -29,9 +26,9 @@ func NewChannelStatusLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Cha
 }
 
 func (l *ChannelStatusLogic) ChannelStatus(req *types.IDStatusReq) error {
-	agentID, err := l.ctx.Value(types.JWTAgentID).(json.Number).Int64()
+	agentID, err := types.GetAgentID(l.ctx)
 	if err != nil {
-		return fmt.Errorf("not find agent")
+		return err
 	}
 	if err := l.svcCtx.DB.Model(&models.Channel{}).Where(models.Channel{ID: req.ID, AgentID: agentID}).Update("status", req.Status).Error; err != nil {
 		return err

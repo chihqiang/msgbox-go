@@ -8,9 +8,7 @@ import (
 	"chihqiang/msgbox-go/services/agent/api/internal/types"
 	"chihqiang/msgbox-go/services/common/models"
 	"context"
-	"encoding/json"
 	"errors"
-	"fmt"
 	"gorm.io/gorm"
 
 	"github.com/zeromicro/go-zero/core/logx"
@@ -31,9 +29,9 @@ func NewTemplateUpdateLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Te
 }
 
 func (l *TemplateUpdateLogic) TemplateUpdate(req *types.TemplateUpdateReq) error {
-	agentID, err := l.ctx.Value(types.JWTAgentID).(json.Number).Int64()
+	agentID, err := types.GetAgentID(l.ctx)
 	if err != nil {
-		return fmt.Errorf("not find agent")
+		return err
 	}
 	var template models.Template
 	if err := l.svcCtx.DB.Where("id = ? AND agent_id = ?", req.ID, agentID).First(&template).Error; err != nil {

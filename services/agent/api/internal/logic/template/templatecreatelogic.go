@@ -8,7 +8,6 @@ import (
 	"chihqiang/msgbox-go/services/agent/api/internal/types"
 	"chihqiang/msgbox-go/services/common/models"
 	"context"
-	"encoding/json"
 	"errors"
 	"fmt"
 	"gorm.io/gorm"
@@ -31,9 +30,9 @@ func NewTemplateCreateLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Te
 }
 
 func (l *TemplateCreateLogic) TemplateCreate(req *types.TemplateCreateReq) error {
-	agentID, err := l.ctx.Value(types.JWTAgentID).(json.Number).Int64()
+	agentID, err := types.GetAgentID(l.ctx)
 	if err != nil {
-		return fmt.Errorf("not find agent")
+		return err
 	}
 	var channel models.Channel
 	if err := l.svcCtx.DB.Model(&channel).Where(&models.Channel{ID: req.ChannelID, AgentID: agentID}).First(&channel).Error; err != nil {

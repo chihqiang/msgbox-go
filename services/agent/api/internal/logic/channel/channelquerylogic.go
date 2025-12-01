@@ -10,8 +10,6 @@ import (
 	"chihqiang/msgbox-go/services/common/channels/senders"
 	"chihqiang/msgbox-go/services/common/models"
 	"context"
-	"encoding/json"
-	"fmt"
 	"github.com/zeromicro/go-zero/core/logx"
 )
 
@@ -30,11 +28,10 @@ func NewChannelQueryLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Chan
 }
 
 func (l *ChannelQueryLogic) ChannelQuery(req *types.ChannelQueryReq) (resp *types.ChannelQueryResp, err error) {
-	agentID, err := l.ctx.Value(types.JWTAgentID).(json.Number).Int64()
+	agentID, err := types.GetAgentID(l.ctx)
 	if err != nil {
-		return nil, fmt.Errorf("not find agent")
+		return nil, err
 	}
-
 	db := l.svcCtx.DB.Model(models.Channel{})
 	db = db.Where("agent_id = ?", agentID)
 	if req.Keywords != "" {

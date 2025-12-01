@@ -33,7 +33,7 @@ func NewLoginLogic(ctx context.Context, svcCtx *svc.ServiceContext) *LoginLogic 
 
 func (l *LoginLogic) Login(req *types.LoginReq) (resp *types.LoginResp, err error) {
 	var agent models.Agent
-	err = l.svcCtx.DB.Model(models.Agent{}).Where("email = ?", req.Email).First(&agent).Error
+	err = l.svcCtx.DB.Model(models.Agent{}).Where(models.Agent{Email: req.Email}).First(&agent).Error
 	if err != nil {
 		if errors.Is(err, gorm.ErrRecordNotFound) {
 			l.Logger.Errorf("login failed: phone=%s not found", req.Email)
