@@ -113,22 +113,26 @@ func DataTypesToMap(j datatypes.JSON) map[string]interface{} {
 }
 
 func Page[T any](db *gorm.DB, page, pageSize int) (total int64, data []T, err error) {
-	if page <= 0 {
-		page = 1
+	if err = db.Count(&total).Error; err != nil {
+		return
 	}
-	if pageSize <= 0 {
-		pageSize = 10
-	}
-	const maxPageSize = 100
-	if pageSize > maxPageSize {
-		pageSize = maxPageSize
-	}
-	db = db.Session(&gorm.Session{})
-	_ = db.Count(&total).Error
 	if total == 0 {
 		return total, []T{}, nil
 	}
-	if err = db.Limit(pageSize).Offset((page - 1) * pageSize).Find(&data).Error; err != nil {
+	if err = db.Scopes(func(db *gorm.DB) *gorm.DB {
+		if page <= 0 {
+			page = 1
+		}
+		if pageSize <= 0 {
+			pageSize = 10
+		}
+		const maxPageSize = 100
+		if pageSize > maxPageSize {
+			pageSize = maxPageSize
+		}
+		offset := (page - 1) * pageSize
+		return db.Offset(offset).Limit(pageSize)
+	}).Find(&data).Error; err != nil {
 		return
 	}
 	return

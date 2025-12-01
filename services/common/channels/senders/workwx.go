@@ -16,7 +16,7 @@ type WorkWxSender struct {
 }
 
 func (w *WorkWxSender) GetName() string {
-	return "dingtalk"
+	return "workwx"
 }
 
 func (w *WorkWxSender) GetLabel() string {

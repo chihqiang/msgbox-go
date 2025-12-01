@@ -3,8 +3,8 @@
     <a-row align="middle" justify="space-between" style="width: 100%; height: 100%;">
       <!-- Left: Logo -->
       <a-col>
-        <a-space :span="6">
-          <img src="@/assets/logo.svg" alt="MSGBOX Logo" style="width: 48px; height: 48px;" />
+        <a-space :span="6" @click="navigateToRoute('/')" style="cursor: pointer;">
+          <img src="@/assets/logo.svg" alt="MSGBOX Logo" style="width: 48px; height: 48px;"/>
           <span style="font-size: 18px; font-weight: 700;">MSGBOX</span>
         </a-space>
       </a-col>

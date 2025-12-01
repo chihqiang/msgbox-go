@@ -40,7 +40,7 @@ func (l *ChannelQueryLogic) ChannelQuery(req *types.ChannelQueryReq) (resp *type
 		keyword := "%" + req.Keywords + "%"
 		db = db.Where("code LIKE ?", keyword).Or("vendor_name LIKE ?", keyword).Or("name LIKE ?", keyword)
 	}
-	total, channels, err := models.Page[models.Channel](db, req.Page, req.Page)
+	total, channels, err := models.Page[models.Channel](db, req.Page, req.Size)
 	if err != nil {
 		return nil, err
 	}
