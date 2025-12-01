@@ -28,13 +28,13 @@ func NewSendTask(log logx.Logger, db *gorm.DB, record *models.SendRecord) *SendT
 }
 
 func (s *SendTask) getSender() (senders.ISender, error) {
-	for _, sender := range senders.Get() {
-		if sender.GetName() == s.record.VendorName {
-			if err := sender.SetConfig(models.DataTypesToMap(s.record.ChannelConfig)); err != nil {
-				return nil, err
-			}
-			return sender, nil
+	sender, ok := senders.Get(s.record.VendorName)
+	if ok {
+		send := sender.Sender
+		if err := send.SetConfig(models.DataTypesToMap(s.record.ChannelConfig)); err != nil {
+			return nil, err
 		}
+		return send, nil
 	}
 	return nil, fmt.Errorf("sender not found for vendor: %s", s.record.VendorName)
 }

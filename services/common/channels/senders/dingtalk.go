@@ -21,13 +21,6 @@ type DingTalkSender struct {
 	Secret      string `json:"secret" ui:"label=Secret;type=text;placeholder=请输入 Secret（可选）"`
 }
 
-func (d *DingTalkSender) GetName() string {
-	return "dingtalk"
-}
-func (d *DingTalkSender) GetLabel() string {
-	return "钉钉机器人"
-}
-
 func (d *DingTalkSender) SetConfig(config map[string]any) error {
 	return htmlx.MapSet(d, config)
 }

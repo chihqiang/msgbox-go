@@ -15,14 +15,6 @@ type WorkWxSender struct {
 	Key string `json:"key" ui:"label=key;type=text;required;placeholder=调用接口凭证"`
 }
 
-func (w *WorkWxSender) GetName() string {
-	return "workwx"
-}
-
-func (w *WorkWxSender) GetLabel() string {
-	return "企业微信机器人"
-}
-
 func (w *WorkWxSender) SetConfig(config map[string]any) error {
 	return htmlx.MapSet(w, config)
 }
