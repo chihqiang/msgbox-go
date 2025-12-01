@@ -23,10 +23,7 @@
             </a-col>
             <a-col :md="12">
               <div class="image-container">
-                <img
-                  src="@/assets/hometalk.jpg"
-                  alt="home talk"
-                />
+                <img src="@/assets/hometalk.jpg" alt="home talk" />
               </div>
             </a-col>
           </a-row>
@@ -77,7 +74,7 @@
                   <div class="feature-icon">
                     🔔
                   </div>
-                  <a-typography-title  :level="4" class="feature-title">钉钉</a-typography-title>
+                  <a-typography-title :level="4" class="feature-title">钉钉</a-typography-title>
                 </div>
                 <a-typography-paragraph class="feature-description">对接钉钉机器人发送通知消息。</a-typography-paragraph>
               </a-card>

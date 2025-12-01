@@ -42,7 +42,8 @@
 
             <!-- 登录按钮 -->
             <a-form-item>
-              <a-button type="primary" html-type="submit" size="large" :loading="loading" :disabled="loading" class="login-button">
+              <a-button type="primary" html-type="submit" size="large" :loading="loading" :disabled="loading"
+                class="login-button">
                 登录
               </a-button>
             </a-form-item>
@@ -84,11 +85,11 @@ const formState = reactive({
 // 加载状态
 const loading = ref(false)
 const handleLogin = async (loginData: typeof formState) => {
-  const {  data } = await login(loginData)
+  const { data } = await login(loginData)
   setToken(data.token, data.expires_in)
   message.success("登录成功")
   setTimeout(() => {
-      router.push('/keys')
+    router.push('/keys')
   }, 1000)
 }
 </script>
@@ -224,4 +225,3 @@ const handleLogin = async (loginData: typeof formState) => {
   font-weight: 500;
 }
 </style>
-

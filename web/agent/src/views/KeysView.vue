@@ -1,15 +1,11 @@
 <template>
   <a-layout>
-    <a-layout-content
-      style="padding: 24px; background-color: #f5f5f5; min-height: calc(100vh - 100px)"
-    >
+    <a-layout-content style="padding: 24px; background-color: #f5f5f5; min-height: calc(100vh - 100px)">
       <div style="max-width: 1200px; margin: 0 auto">
         <!-- 页面标题和说明 -->
         <div style="margin-bottom: 32px">
           <a-typography-title :level="2">API 密钥管理</a-typography-title>
-          <a-typography-paragraph
-            >管理您的 API Key 和密钥，用于调用 WPUSH 的推送服务接口。</a-typography-paragraph
-          >
+          <a-typography-paragraph>管理您的 API Key 和密钥，用于调用 WPUSH 的推送服务接口。</a-typography-paragraph>
         </div>
 
         <!-- 密钥管理区域 -->
@@ -92,31 +88,22 @@
               </a-button>
             </div>
           </template>
-          <a-typography-paragraph type="secondary"
-            >使用curl调用推送服务接口的示例</a-typography-paragraph
-          >
+          <a-typography-paragraph type="secondary">使用curl调用推送服务接口的示例</a-typography-paragraph>
           <a-space direction="vertical" style="width: 100%">
             <div class="curl-example-container">
               <pre class="curl-example">{{ curlExample }}</pre>
             </div>
 
             <!-- 认证头生成规则说明 -->
-            <a-card
-              size="small"
-              style="margin-top: 16px; border-left: 4px solid #1890ff; padding: 16px"
-            >
-              <a-typography-title :level="5" style="margin-bottom: 12px"
-                >API 认证头生成规则</a-typography-title
-              >
+            <a-card size="small" style="margin-top: 16px; border-left: 4px solid #1890ff; padding: 16px">
+              <a-typography-title :level="5" style="margin-bottom: 12px">API 认证头生成规则</a-typography-title>
 
               <a-typography-paragraph style="margin-bottom: 12px">
                 调用 API 时需要在请求头中添加
                 <code>Authorization: Basic</code> 认证信息，生成步骤如下：
               </a-typography-paragraph>
 
-              <div
-                style="background: #fafafa; padding: 16px; border-radius: 4px; margin-bottom: 12px"
-              >
+              <div style="background: #fafafa; padding: 16px; border-radius: 4px; margin-bottom: 12px">
                 <div class="step-item">
                   <div class="step-number">1</div>
                   <div class="step-content">
@@ -318,5 +305,3 @@ const copyCurlExample = () => {
   color: #666;
 }
 </style>
-
-

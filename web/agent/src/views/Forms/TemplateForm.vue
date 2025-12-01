@@ -1,53 +1,27 @@
 <template>
   <div class="template-form-container">
-    <a-form
-      v-if="formModel"
-      :model="formModel"
-      :rules="rules"
-      layout="vertical"
-      ref="formRef"
-      class="modern-form"
-    >
+    <a-form v-if="formModel" :model="formModel" :rules="rules" layout="vertical" ref="formRef" class="modern-form">
       <a-form-item label="通道" name="channel_id" class="form-item">
-        <a-select
-          v-model:value="formModel.channel_id"
-          show-search
-          placeholder="请选择通道"
-          style="width: 200px"
-          :options="channelOptions"
-          :filter-option="filterOption"
-          @change="handleChange"
-        ></a-select>
+        <a-select v-model:value="formModel.channel_id" show-search placeholder="请选择通道" style="width: 200px"
+          :options="channelOptions" :filter-option="filterOption" @change="handleChange"></a-select>
       </a-form-item>
       <a-form-item label="模板名称" name="name" class="form-item">
         <a-input v-model:value="formModel.name" placeholder="请输入模板名称" class="modern-input" />
       </a-form-item>
-      <a-form-item label="模板编码" name="code" class="form-item">
+      <a-form-item label="模板编码" name="code" class="form-item" v-if="!isEdit">
         <a-input v-model:value="formModel.code" placeholder="请输入模板编码" class="modern-input" />
       </a-form-item>
 
       <a-form-item label="服务商编码" name="vendor_code" class="form-item">
-        <a-input
-          v-model:value="formModel.vendor_code"
-          placeholder="请输入服务商编码"
-          class="modern-input"
-        />
+        <a-input v-model:value="formModel.vendor_code" placeholder="请输入服务商编码" class="modern-input" />
       </a-form-item>
 
       <a-form-item label="服务商签名" name="signature" class="form-item">
-        <a-input
-          v-model:value="formModel.signature"
-          placeholder="请输入签名"
-          class="modern-input"
-        />
+        <a-input v-model:value="formModel.signature" placeholder="请输入签名" class="modern-input" />
       </a-form-item>
 
       <a-form-item label="模板内容" name="content" class="form-item">
-        <a-textarea
-          v-model:value="formModel.content"
-          placeholder="请输入模板内容"
-          :auto-size="{ minRows: 2, maxRows: 5 }"
-        />
+        <a-textarea v-model:value="formModel.content" placeholder="请输入模板内容" :auto-size="{ minRows: 2, maxRows: 5 }" />
       </a-form-item>
 
       <!-- 使用水平布局的子表单来确保状态字段的标签和开关在同一行 -->
@@ -59,7 +33,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, reactive, watch, onMounted } from 'vue'
+import { ref, reactive, watch, onMounted, computed } from 'vue'
 import type { FormInstance } from 'ant-design-vue'
 import { TemplateItem } from '@/model/template'
 import { SelectOption } from '@/model/base'
@@ -82,6 +56,10 @@ const rules = reactive({
   code: [{ required: true, message: '请输入模板编码', trigger: 'blur' }],
   content: [{ required: true, message: '请输入模板内容', trigger: 'blur' }],
   channel_id: [{ required: true, message: '请选择通道', trigger: ['blur', 'change'] }],
+})
+// 判断是否为编辑模式
+const isEdit = computed(() => {
+  return props.model?.id !== undefined && props.model.id !== 0
 })
 
 const channelOptions = reactive<SelectOption[]>([])

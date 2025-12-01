@@ -11,8 +11,8 @@
         <!-- 搜索和筛选区域 -->
         <a-card style="margin-bottom: 24px;">
           <a-space size="middle" wrap>
-            <a-input-search v-model:value="searchKeyword" placeholder="搜索关键词（接收人、通道名称等）" allow-clear style="width: 300px;"
-              @search="handleSearch"/>
+            <a-input-search v-model:value="searchKeyword" placeholder="搜索关键词（接收人、通道名称等）" allow-clear
+              style="width: 300px;" @search="handleSearch" />
             <a-button type="primary" @click="handleSearch">
               <template #icon>
                 <search-outlined />
@@ -27,8 +27,8 @@
 
         <!-- 记录列表卡片 -->
         <a-card>
-          <a-table :columns="columns" :data-source="records" :pagination="pagination" row-key="id"
-            :loading="loading" size="middle" :scroll="{ x: 1200 }">
+          <a-table :columns="columns" :data-source="records" :pagination="pagination" row-key="id" :loading="loading"
+            size="middle" :scroll="{ x: 1200 }">
           </a-table>
         </a-card>
 

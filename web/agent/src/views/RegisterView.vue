@@ -25,55 +25,25 @@
           <!-- 注册表单 -->
           <a-form :model="formState" @finish="handleRegister">
             <!-- 邮箱输入 -->
-            <a-form-item
-              label="邮箱"
-              name="email"
-              :rules="[{ required: true, message: '请输入邮箱', type: 'email' }]"
-            >
-              <a-input
-                v-model:value="formState.email"
-                placeholder="请输入邮箱"
-                prefix-icon="mail"
-              />
+            <a-form-item label="邮箱" name="email" :rules="[{ required: true, message: '请输入邮箱', type: 'email' }]">
+              <a-input v-model:value="formState.email" placeholder="请输入邮箱" prefix-icon="mail" />
             </a-form-item>
 
             <!-- 手机号输入 -->
-            <a-form-item
-              label="手机号"
-              name="phone"
-              :rules="[{ required: false, message: '请输入手机号' }]"
-            >
-              <a-input
-                v-model:value="formState.phone"
-                placeholder="请输入手机号"
-                prefix-icon="mobile"
-              />
+            <a-form-item label="手机号" name="phone" :rules="[{ required: false, message: '请输入手机号' }]">
+              <a-input v-model:value="formState.phone" placeholder="请输入手机号" prefix-icon="mobile" />
             </a-form-item>
 
             <!-- 密码输入 -->
-            <a-form-item
-              label="密码"
-              name="password"
-              :rules="[{ required: true, message: '请输入密码', min: 8 }]"
-            >
-              <a-input-password
-                v-model:value="formState.password"
-                placeholder="••••••••"
-                :visibility-toggle="true"
-              />
+            <a-form-item label="密码" name="password" :rules="[{ required: true, message: '请输入密码', min: 8 }]">
+              <a-input-password v-model:value="formState.password" placeholder="••••••••" :visibility-toggle="true" />
             </a-form-item>
 
             <!-- 确认密码输入 -->
-            <a-form-item
-              label="确认密码"
-              name="confirmPassword"
-              :rules="[{ validator: validatePassword, trigger: 'change' }]"
-            >
-              <a-input-password
-                v-model:value="formState.confirmPassword"
-                placeholder="••••••••"
-                :visibility-toggle="true"
-              />
+            <a-form-item label="确认密码" name="confirmPassword"
+              :rules="[{ validator: validatePassword, trigger: 'change' }]">
+              <a-input-password v-model:value="formState.confirmPassword" placeholder="••••••••"
+                :visibility-toggle="true" />
             </a-form-item>
 
             <!-- 注册按钮 -->
@@ -131,7 +101,7 @@ const handleRegister = async (values: typeof formState) => {
   await register(values)
   message.success("注册成功！")
   setTimeout(() => {
-      router.push('/login')
+    router.push('/login')
   }, 1000)
 }
 </script>
@@ -255,4 +225,3 @@ const handleRegister = async (values: typeof formState) => {
   font-weight: 500;
 }
 </style>
-

@@ -1,55 +1,28 @@
 <template>
   <div class="channel-form-container">
-    <a-form
-      v-if="formModel"
-      :model="formModel"
-      :rules="rules"
-      layout="vertical"
-      ref="formRef"
-      class="modern-form"
-    >
+    <a-form v-if="formModel" :model="formModel" :rules="rules" layout="vertical" ref="formRef" class="modern-form">
       <!-- 创建时显示code字段，编辑时隐藏 -->
       <div class="form-row" v-if="!isEdit">
         <a-form-item label="通道编码" name="code" class="form-item">
-          <a-input
-            v-model:value="formModel.code"
-            placeholder="请输入通道编码"
-            class="modern-input"
-          />
+          <a-input v-model:value="formModel.code" placeholder="请输入通道编码" class="modern-input" />
         </a-form-item>
 
         <a-form-item label="通道名称" name="name" class="form-item">
-          <a-input
-            v-model:value="formModel.name"
-            placeholder="请输入通道名称"
-            class="modern-input"
-          />
+          <a-input v-model:value="formModel.name" placeholder="请输入通道名称" class="modern-input" />
         </a-form-item>
       </div>
 
       <div class="form-row" v-else>
         <a-form-item label="通道名称" name="name" class="form-item">
-          <a-input
-            v-model:value="formModel.name"
-            placeholder="请输入通道名称"
-            class="modern-input"
-          />
+          <a-input v-model:value="formModel.name" placeholder="请输入通道名称" class="modern-input" />
         </a-form-item>
       </div>
 
       <div class="form-row">
         <a-form-item label="服务商（不同的服务商不同的配置）" name="vendor_name" class="form-item full-width">
-          <a-select
-            v-model:value="formModel.vendor_name"
-            placeholder="请选择服务商名称"
-            class="modern-select"
-            @change="handleChangeConfig"
-          >
-            <a-select-option
-              v-for="vendor in configs"
-              :key="vendor.name"
-              :value="vendor.name"
-            >
+          <a-select v-model:value="formModel.vendor_name" placeholder="请选择服务商名称" class="modern-select"
+            @change="handleChangeConfig">
+            <a-select-option v-for="vendor in configs" :key="vendor.name" :value="vendor.name">
               {{ vendor.label }}
             </a-select-option>
           </a-select>
@@ -61,15 +34,9 @@
         <div class="config-section-title">通道配置</div>
         <div v-for="(configItem, index) in currentVendor.configs" :key="index" class="config-section">
           <a-form-item :label="configItem.label" :required="configItem.required" class="nested-form-item">
-            <a-input
-              v-if="configItem.type === 'text'"
-              v-model:value="configForm[configItem.name]"
-              :placeholder="configItem.placeholder"
-              :default-value="configItem.default"
-              :required="configItem.required"
-              class="modern-input"
-              @blur="() => validateDynamicFields()"
-            />
+            <a-input v-if="configItem.type === 'text'" v-model:value="configForm[configItem.name]"
+              :placeholder="configItem.placeholder" :default-value="configItem.default" :required="configItem.required"
+              class="modern-input" @blur="() => validateDynamicFields()" />
             <div v-if="dynamicFieldErrors[configItem.name]" class="ant-form-item-explain">
               {{ dynamicFieldErrors[configItem.name] }}
             </div>
@@ -81,10 +48,7 @@
       <a-form-item label="状态" name="status" class="form-item status-item">
         <div class="status-container">
           <span class="status-label">{{ formModel.status ? '启用' : '禁用' }}</span>
-          <a-switch
-            v-model:checked="formModel.status"
-            size="large"
-          />
+          <a-switch v-model:checked="formModel.status" size="large" />
         </div>
       </a-form-item>
     </a-form>
@@ -101,7 +65,7 @@ interface Props {
   model: ChannelItem | null
 }
 // 定义props，默认值为null
-const props = withDefaults(defineProps<Props>(), {model: null})
+const props = withDefaults(defineProps<Props>(), { model: null })
 // 判断是否为编辑模式
 const isEdit = computed(() => {
   return props.model?.id !== undefined && props.model.id !== 0
@@ -475,7 +439,7 @@ defineExpose({
 }
 
 /* 标签样式 */
-.ant-form-item-label > label {
+.ant-form-item-label>label {
   font-weight: 600;
   font-size: 14px;
   color: #1a1a1a;
@@ -483,7 +447,7 @@ defineExpose({
   transition: color 0.3s ease;
 }
 
-.ant-form-item-label > label:hover {
+.ant-form-item-label>label:hover {
   color: #4096ff;
 }
 
@@ -655,7 +619,7 @@ defineExpose({
     padding: 4px;
   }
 
-  .ant-form-item-label > label {
+  .ant-form-item-label>label {
     font-size: 13px;
   }
 
@@ -685,6 +649,7 @@ defineExpose({
     opacity: 0;
     transform: translateY(10px);
   }
+
   to {
     opacity: 1;
     transform: translateY(0);
@@ -695,10 +660,27 @@ defineExpose({
   animation: slideIn 0.4s ease forwards;
 }
 
-.form-item:nth-child(1) { animation-delay: 0.1s; }
-.form-item:nth-child(2) { animation-delay: 0.2s; }
-.form-item:nth-child(3) { animation-delay: 0.3s; }
-.form-item:nth-child(4) { animation-delay: 0.4s; }
-.form-item:nth-child(5) { animation-delay: 0.5s; }
-.form-item:nth-child(6) { animation-delay: 0.6s; }
+.form-item:nth-child(1) {
+  animation-delay: 0.1s;
+}
+
+.form-item:nth-child(2) {
+  animation-delay: 0.2s;
+}
+
+.form-item:nth-child(3) {
+  animation-delay: 0.3s;
+}
+
+.form-item:nth-child(4) {
+  animation-delay: 0.4s;
+}
+
+.form-item:nth-child(5) {
+  animation-delay: 0.5s;
+}
+
+.form-item:nth-child(6) {
+  animation-delay: 0.6s;
+}
 </style>

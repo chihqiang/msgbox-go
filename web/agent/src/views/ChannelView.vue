@@ -8,45 +8,45 @@
           <a-typography-paragraph>查看和管理您的消息发送通道，支持创建、编辑和删除操作。</a-typography-paragraph>
         </div>
 
-      <!-- 搜索和创建按钮区域 -->
-      <a-card style="margin-bottom: 24px;">
-        <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px;">
-          <a-input-search v-model:value="searchKeyword" placeholder="搜索通道编码、名称或服务商" allow-clear style="width: 300px;"
-            @search="handleSearch" />
-          <a-button type="primary" @click="handleCreate">
-            <template #icon>
-              <plus-outlined />
+        <!-- 搜索和创建按钮区域 -->
+        <a-card style="margin-bottom: 24px;">
+          <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px;">
+            <a-input-search v-model:value="searchKeyword" placeholder="搜索通道编码、名称或服务商" allow-clear style="width: 300px;"
+              @search="handleSearch" />
+            <a-button type="primary" @click="handleCreate">
+              <template #icon>
+                <plus-outlined />
+              </template>
+              创建通道
+            </a-button>
+          </div>
+        </a-card>
+
+        <!-- 通道列表卡片 -->
+        <a-card>
+          <a-table :columns="columns" :data-source="filteredChannels" :pagination="pagination" row-key="id"
+            :loading="loading" size="middle">
+            <template #bodyCell="{ record, column }">
+              <template v-if="column.key === 'actions'">
+                <a-button-group>
+                  <a-button type="link" @click="handleEdit(record)">
+                    编辑
+                  </a-button>
+                  <a-button type="link" danger @click="handleDelete(record)">
+                    删除
+                  </a-button>
+                </a-button-group>
+              </template>
             </template>
-            创建通道
-          </a-button>
-        </div>
-      </a-card>
+          </a-table>
+        </a-card>
 
-      <!-- 通道列表卡片 -->
-      <a-card>
-        <a-table :columns="columns" :data-source="filteredChannels" :pagination="pagination" row-key="id"
-          :loading="loading" size="middle">
-          <template #bodyCell="{ record, column }">
-            <template v-if="column.key === 'actions'">
-              <a-button-group>
-                <a-button type="link" @click="handleEdit(record)">
-                  编辑
-                </a-button>
-                <a-button type="link" danger @click="handleDelete(record)">
-                  删除
-                </a-button>
-              </a-button-group>
-            </template>
-          </template>
-        </a-table>
-      </a-card>
+        <!-- 创建/编辑通道对话框 -->
+        <a-modal v-model:open="showModal" :title="modalTitle" @ok="handleSave" @cancel="handleCancel" width="600px">
+          <channel-form v-if="currentChannel" :model="currentChannel" ref="channelForm" />
+        </a-modal>
 
-      <!-- 创建/编辑通道对话框 -->
-      <a-modal v-model:open="showModal" :title="modalTitle" @ok="handleSave" @cancel="handleCancel" width="600px">
-        <channel-form v-if="currentChannel" :model="currentChannel" ref="channelForm" />
-      </a-modal>
-
-      <!-- 删除确认对话框已通过函数式调用实现 -->
+        <!-- 删除确认对话框已通过函数式调用实现 -->
       </div>
     </a-layout-content>
   </a-layout>
@@ -86,16 +86,16 @@ const columns: TableColumnsType<ChannelItem> = [
     key: 'config',
     ellipsis: true,
     customRender: ({ text }: { text: string | object }) => {
-        try {
-          // 尝试解析配置内容
-          const configObj = typeof text === 'string' ? JSON.parse(text) : text;
-          // 显示格式化后的配置，确保access_token可见
-          return JSON.stringify(configObj, null, 2);
-        } catch {
-          // 如果解析失败，返回原始文本
-          return String(text);
-        }
+      try {
+        // 尝试解析配置内容
+        const configObj = typeof text === 'string' ? JSON.parse(text) : text;
+        // 显示格式化后的配置，确保access_token可见
+        return JSON.stringify(configObj, null, 2);
+      } catch {
+        // 如果解析失败，返回原始文本
+        return String(text);
       }
+    }
   },
   {
     title: '状态',
@@ -281,5 +281,3 @@ watch(showCreateModal, (newVal: boolean) => {
   }
 });
 </script>
-
-
