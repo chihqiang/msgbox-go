@@ -134,6 +134,7 @@ type RecordQueryResp struct {
 type RegisterReq struct {
 	Email    string `json:"email" validate:"email"`
 	Password string `json:"password" validate:"required"`
+	Code     string `json:"code" validate:"required"`
 	Phone    string `json:"phone,optional"`
 }
 

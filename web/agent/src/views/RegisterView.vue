@@ -5,9 +5,13 @@
       <div class="brand-content">
         <img src="@/assets/logo.svg" alt="MSGBOX Logo" class="brand-logo" />
         <a-typography-title :level="2" class="brand-title">MSGBOX</a-typography-title>
-        <a-typography-paragraph class="brand-description">企业级云消息推送平台</a-typography-paragraph>
+        <a-typography-paragraph class="brand-description"
+          >企业级云消息推送平台</a-typography-paragraph
+        >
         <div class="brand-features">
-          <a-typography-paragraph class="features-text">安全 · 稳定 · 高效 · 可靠</a-typography-paragraph>
+          <a-typography-paragraph class="features-text"
+            >安全 · 稳定 · 高效 · 可靠</a-typography-paragraph
+          >
         </div>
       </div>
     </div>
@@ -18,33 +22,72 @@
         <!-- 注册表单标题 -->
         <div class="form-header">
           <a-typography-title :level="2" class="form-title">创建账号</a-typography-title>
-          <a-typography-paragraph class="form-subtitle">填写以下信息完成注册</a-typography-paragraph>
+          <a-typography-paragraph class="form-subtitle"
+            >填写以下信息完成注册</a-typography-paragraph
+          >
         </div>
 
         <!-- 注册表单 -->
         <a-form :model="formState" @finish="handleRegister">
           <!-- 邮箱输入 -->
-          <a-form-item label="邮箱" name="email" :rules="[{ required: true, message: '请输入邮箱', type: 'email' }]">
+          <a-form-item
+            label="邮箱"
+            name="email"
+            :rules="[{ required: true, message: '请输入邮箱', type: 'email' }]"
+          >
             <a-input v-model:value="formState.email" placeholder="请输入邮箱" prefix-icon="mail" />
           </a-form-item>
 
           <!-- 手机号输入 -->
-          <a-form-item label="手机号" name="phone" :rules="[{ required: false, message: '请输入手机号' }]">
-            <a-input v-model:value="formState.phone" placeholder="请输入手机号" prefix-icon="mobile" />
+          <a-form-item
+            label="手机号"
+            name="phone"
+            :rules="[{ required: false, message: '请输入手机号' }]"
+          >
+            <a-input
+              v-model:value="formState.phone"
+              placeholder="请输入手机号"
+              prefix-icon="mobile"
+            />
           </a-form-item>
 
           <!-- 密码输入 -->
-          <a-form-item label="密码" name="password" :rules="[{ required: true, message: '请输入密码', min: 8 }]">
-            <a-input-password v-model:value="formState.password" placeholder="••••••••" :visibility-toggle="true" />
+          <a-form-item
+            label="密码"
+            name="password"
+            :rules="[{ required: true, message: '请输入密码', min: 8 }]"
+          >
+            <a-input-password
+              v-model:value="formState.password"
+              placeholder="••••••••"
+              :visibility-toggle="true"
+            />
           </a-form-item>
 
           <!-- 确认密码输入 -->
-          <a-form-item label="确认密码" name="confirmPassword"
-            :rules="[{ validator: validatePassword, trigger: 'change' }]">
-            <a-input-password v-model:value="formState.confirmPassword" placeholder="••••••••"
-              :visibility-toggle="true" />
+          <a-form-item
+            label="确认密码"
+            name="confirmPassword"
+            :rules="[{ validator: validatePassword, trigger: 'change' }]"
+          >
+            <a-input-password
+              v-model:value="formState.confirmPassword"
+              placeholder="••••••••"
+              :visibility-toggle="true"
+            />
           </a-form-item>
-
+          <!-- 邀请码 -->
+          <a-form-item
+            label="邀请码"
+            name="code"
+            :rules="[{ required: true, message: '请输入邀请码' }]"
+          >
+            <a-input
+              v-model:value="formState.code"
+              placeholder="请输入邀请码"
+              prefix-icon="code"
+            />
+          </a-form-item>
           <!-- 注册按钮 -->
           <a-form-item>
             <a-button type="primary" html-type="submit" size="large" class="register-button">
@@ -76,6 +119,7 @@ const formState = reactive({
   email: '',
   phone: '',
   password: '',
+  code: '',
   confirmPassword: '',
 })
 
@@ -97,7 +141,7 @@ const handleRegister = async (values: typeof formState) => {
   // 注册逻辑将在这里实现
   console.log('Register submitted:', values)
   await register(values)
-  message.success("注册成功！")
+  message.success('注册成功！')
   setTimeout(() => {
     router.push('/login')
   }, 1000)

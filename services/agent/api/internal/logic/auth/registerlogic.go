@@ -8,6 +8,7 @@ import (
 	"chihqiang/msgbox-go/services/common/models"
 	"context"
 	"errors"
+	"slices"
 
 	"chihqiang/msgbox-go/services/agent/api/internal/svc"
 	"chihqiang/msgbox-go/services/agent/api/internal/types"
@@ -30,6 +31,9 @@ func NewRegisterLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Register
 }
 
 func (l *RegisterLogic) Register(req *types.RegisterReq) error {
+	if !slices.Contains([]string{"msgbox-go"}, req.Code) {
+		return errors.New("注册码错误")
+	}
 	var agent models.Agent
 	l.svcCtx.DB.Model(&agent).Where(models.Agent{Email: req.Email}).First(&agent)
 	if agent.ID > 0 {
