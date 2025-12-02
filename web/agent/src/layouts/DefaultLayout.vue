@@ -8,8 +8,10 @@
 
     <!-- 主内容区域 -->
     <a-layout-content>
-      <div class="p-4">
-        <slot></slot>
+      <div class="content-container">
+        <div class="max-width-container">
+          <slot></slot>
+        </div>
       </div>
     </a-layout-content>
 
@@ -22,13 +24,21 @@
 
 <script setup lang="ts">
 // 导入组件
-import SiteHeader from '../components/SiteHeader.vue'
-import SiteFooter from '../components/SiteFooter.vue'
+import SiteHeader from '@/components/SiteHeader.vue'
+import SiteFooter from '@/components/SiteFooter.vue'
 </script>
 
 <style scoped>
-.p-4 {
-  padding: 1rem;
+/* 主内容区域样式 */
+.content-container {
+  padding: 24px;
+  background-color: #f5f5f5;
+  min-height: calc(100vh - 100px);
+}
+
+.max-width-container {
+  max-width: 1200px;
+  margin: 0 auto;
 }
 
 /* 为导航栏添加白色背景 */

@@ -1,70 +1,68 @@
 <template>
-  <a-layout class="register-container">
-    <a-layout class="register-wrapper">
-      <!-- 左侧品牌区域 -->
-      <a-layout-sider width="40%" class="register-brand">
-        <div class="brand-content">
-          <img src="@/assets/logo.svg" alt="MSGBOX Logo" class="brand-logo" />
-          <a-typography-title :level="2" class="brand-title">MSGBOX</a-typography-title>
-          <a-typography-paragraph class="brand-description">企业级云消息推送平台</a-typography-paragraph>
-          <div class="brand-features">
-            <a-typography-paragraph class="features-text">安全 · 稳定 · 高效 · 可靠</a-typography-paragraph>
-          </div>
+  <div class="register-wrapper">
+    <!-- 左侧品牌区域 -->
+    <div class="register-brand">
+      <div class="brand-content">
+        <img src="@/assets/logo.svg" alt="MSGBOX Logo" class="brand-logo" />
+        <a-typography-title :level="2" class="brand-title">MSGBOX</a-typography-title>
+        <a-typography-paragraph class="brand-description">企业级云消息推送平台</a-typography-paragraph>
+        <div class="brand-features">
+          <a-typography-paragraph class="features-text">安全 · 稳定 · 高效 · 可靠</a-typography-paragraph>
         </div>
-      </a-layout-sider>
+      </div>
+    </div>
 
-      <!-- 右侧注册表单区域 -->
-      <a-layout-content class="register-form-container">
-        <div class="form-wrapper">
-          <!-- 注册表单标题 -->
-          <div class="form-header">
-            <a-typography-title :level="2" class="form-title">创建账号</a-typography-title>
-            <a-typography-paragraph class="form-subtitle">填写以下信息完成注册</a-typography-paragraph>
-          </div>
-
-          <!-- 注册表单 -->
-          <a-form :model="formState" @finish="handleRegister">
-            <!-- 邮箱输入 -->
-            <a-form-item label="邮箱" name="email" :rules="[{ required: true, message: '请输入邮箱', type: 'email' }]">
-              <a-input v-model:value="formState.email" placeholder="请输入邮箱" prefix-icon="mail" />
-            </a-form-item>
-
-            <!-- 手机号输入 -->
-            <a-form-item label="手机号" name="phone" :rules="[{ required: false, message: '请输入手机号' }]">
-              <a-input v-model:value="formState.phone" placeholder="请输入手机号" prefix-icon="mobile" />
-            </a-form-item>
-
-            <!-- 密码输入 -->
-            <a-form-item label="密码" name="password" :rules="[{ required: true, message: '请输入密码', min: 8 }]">
-              <a-input-password v-model:value="formState.password" placeholder="••••••••" :visibility-toggle="true" />
-            </a-form-item>
-
-            <!-- 确认密码输入 -->
-            <a-form-item label="确认密码" name="confirmPassword"
-              :rules="[{ validator: validatePassword, trigger: 'change' }]">
-              <a-input-password v-model:value="formState.confirmPassword" placeholder="••••••••"
-                :visibility-toggle="true" />
-            </a-form-item>
-
-            <!-- 注册按钮 -->
-            <a-form-item>
-              <a-button type="primary" html-type="submit" size="large" class="register-button">
-                立即注册
-              </a-button>
-            </a-form-item>
-          </a-form>
-
-          <!-- 登录链接 -->
-          <div class="login-link">
-            <a-typography-paragraph>
-              已有账号?
-              <router-link to="/login" class="login-button"> 立即登录 </router-link>
-            </a-typography-paragraph>
-          </div>
+    <!-- 右侧注册表单区域 -->
+    <div class="register-form-container">
+      <div class="form-wrapper">
+        <!-- 注册表单标题 -->
+        <div class="form-header">
+          <a-typography-title :level="2" class="form-title">创建账号</a-typography-title>
+          <a-typography-paragraph class="form-subtitle">填写以下信息完成注册</a-typography-paragraph>
         </div>
-      </a-layout-content>
-    </a-layout>
-  </a-layout>
+
+        <!-- 注册表单 -->
+        <a-form :model="formState" @finish="handleRegister">
+          <!-- 邮箱输入 -->
+          <a-form-item label="邮箱" name="email" :rules="[{ required: true, message: '请输入邮箱', type: 'email' }]">
+            <a-input v-model:value="formState.email" placeholder="请输入邮箱" prefix-icon="mail" />
+          </a-form-item>
+
+          <!-- 手机号输入 -->
+          <a-form-item label="手机号" name="phone" :rules="[{ required: false, message: '请输入手机号' }]">
+            <a-input v-model:value="formState.phone" placeholder="请输入手机号" prefix-icon="mobile" />
+          </a-form-item>
+
+          <!-- 密码输入 -->
+          <a-form-item label="密码" name="password" :rules="[{ required: true, message: '请输入密码', min: 8 }]">
+            <a-input-password v-model:value="formState.password" placeholder="••••••••" :visibility-toggle="true" />
+          </a-form-item>
+
+          <!-- 确认密码输入 -->
+          <a-form-item label="确认密码" name="confirmPassword"
+            :rules="[{ validator: validatePassword, trigger: 'change' }]">
+            <a-input-password v-model:value="formState.confirmPassword" placeholder="••••••••"
+              :visibility-toggle="true" />
+          </a-form-item>
+
+          <!-- 注册按钮 -->
+          <a-form-item>
+            <a-button type="primary" html-type="submit" size="large" class="register-button">
+              立即注册
+            </a-button>
+          </a-form-item>
+        </a-form>
+
+        <!-- 登录链接 -->
+        <div class="login-link">
+          <a-typography-paragraph>
+            已有账号?
+            <router-link to="/login" class="login-button"> 立即登录 </router-link>
+          </a-typography-paragraph>
+        </div>
+      </div>
+    </div>
+  </div>
 </template>
 
 <script setup lang="ts">
@@ -107,26 +105,17 @@ const handleRegister = async (values: typeof formState) => {
 </script>
 
 <style scoped>
-/* 注册页面容器 */
-.register-container {
-  min-height: 100vh;
-  background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
 /* 注册页面包装器 */
 .register-wrapper {
-  width: 100%;
-  max-width: 960px;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  display: flex;
   border-radius: 8px;
   overflow: hidden;
+  min-height: 600px;
 }
 
 /* 品牌区域 */
 .register-brand {
+  width: 40%;
   background: linear-gradient(135deg, #1e40af 0%, #1e3a8a 100%);
   color: white;
   display: flex;
@@ -178,14 +167,18 @@ const handleRegister = async (values: typeof formState) => {
 
 /* 注册表单容器 */
 .register-form-container {
+  width: 60%;
   padding: 40px;
   background: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 /* 表单包装器 */
 .form-wrapper {
   max-width: 400px;
-  margin: 0 auto;
+  width: 100%;
 }
 
 /* 表单头部 */
