@@ -2,6 +2,15 @@ Name: gateway-api
 Host: 0.0.0.0
 Port: 8888
 
+#Log:
+#  ServiceName: gateway-api
+#  Mode: file
+#  Path: logs
+#  Level: info
+#  Compress: false
+#  KeepDays: 7
+#  StackCoolDownMillis: 100
+
 DB:
   DBType: mysql
   Username: root

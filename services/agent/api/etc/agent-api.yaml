@@ -10,6 +10,15 @@ DB:
   Port: 3306
   Database: msgbox
 
+#Log:
+#  ServiceName: agent-api
+#  Mode: file
+#  Path: logs
+#  Level: info
+#  Compress: false
+#  KeepDays: 7
+#  StackCoolDownMillis: 100
+
 Auth:
   AccessSecret: uOvKLmVfztaXGpNYd4Z0I1SiT7MweJhl
   AccessExpire: 86400
