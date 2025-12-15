@@ -29,7 +29,7 @@ func NewGetChannelConfigsLogic(ctx context.Context, svcCtx *svc.ServiceContext) 
 func (l *GetChannelConfigsLogic) GetChannelConfigs() (resp []types.GetChannelConfigsResp, err error) {
 	for _, sender := range senders.List() {
 		formFields := make([]types.FormField, 0)
-		for _, form := range sender.SenderFormFields() {
+		for _, form := range sender.FormFields() {
 			formFields = append(formFields, types.FormField{
 				Type:        form.Type,
 				Name:        form.Name,
