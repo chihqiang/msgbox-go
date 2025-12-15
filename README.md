@@ -81,7 +81,8 @@ docker-compose -f docker-compose-env.yml up -d
 
 在启动基础环境后，需要单独启动应用程序组件。以下提供两种运行方式（选择其一即可）：
 
-**方式一：直接运行（开发环境推荐）**
+### 方式一：直接运行（开发环境推荐）
+
 ```bash
 # 启动 Agent 服务
 cd services/agent/api
@@ -92,7 +93,8 @@ cd services/gateway/api
 go run gateway.go -f etc/gateway-api.yaml
 ```
 
-**方式二：构建后运行（生产环境推荐）**
+### 方式二：构建后运行（生产环境推荐） 
+
 ```bash
 # 构建并启动 Agent 服务
 cd services/agent/api
@@ -105,7 +107,8 @@ go build -ldflags="-s -w" -tags no_k8s -o gateway-api gateway.go
 ./gateway-api -f etc/gateway-api.yaml
 ```
 
-**启动前端（在另一个终端）**
+### 启动前端（在另一个终端）
+
 ```bash
 cd web/agent
 pnpm install
@@ -114,7 +117,7 @@ pnpm run dev
 
 ## 项目结构
 
-```
+```bash
 ├── deploy/           # 部署相关文件
 │   ├── docker/       # Docker 配置
 │   └── goctl/        # 代码生成模板
@@ -148,17 +151,20 @@ pnpm run dev
 ### 前端开发
 
 1. **安装依赖**：
+
    ```bash
    cd web/agent
    pnpm install
    ```
 
 2. **开发模式**：
+
    ```bash
    pnpm run dev
    ```
 
 3. **构建生产版本**：
+
    ```bash
    pnpm run build
    ```
@@ -174,4 +180,3 @@ pnpm run dev
 ## 联系方式
 
 如有问题或建议，欢迎提交 Issue 或联系项目维护者。
-
