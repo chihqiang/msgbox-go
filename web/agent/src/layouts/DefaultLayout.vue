@@ -33,11 +33,11 @@ import SiteFooter from '@/components/SiteFooter.vue'
 .content-container {
   padding: 24px;
   background-color: #f5f5f5;
-  min-height: calc(100vh - 100px);
+  min-height: calc(100vh - 140px);
 }
 
 .max-width-container {
-  max-width: 1200px;
+  max-width: 90%;
   margin: 0 auto;
 }
 
