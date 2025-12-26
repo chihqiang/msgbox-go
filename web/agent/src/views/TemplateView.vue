@@ -46,8 +46,8 @@
         <template #bodyCell="{ record, column }">
           <template v-if="column.key === 'actions'">
             <a-button-group>
-              <a-button type="link" @click="handleEdit(record)"> 编辑 </a-button>
-              <a-button type="link" danger @click="handleDelete(record)"> 删除 </a-button>
+              <a-button type="text" @click="handleEdit(record)"> 编辑 </a-button>
+              <a-button type="text" status="danger" @click="handleDelete(record)"> 删除 </a-button>
             </a-button-group>
           </template>
         </template>
@@ -71,9 +71,8 @@
 
 <script setup lang="ts">
 import { ref, reactive, computed, onMounted, watch } from 'vue'
-import { PlusOutlined } from '@ant-design/icons-vue'
-import { Modal } from 'ant-design-vue'
-import type { TableColumnsType } from 'ant-design-vue'
+import { Modal } from '@arco-design/web-vue'
+import type { TableColumn } from '@arco-design/web-vue'
 import TemplateForm from '@/views/Forms/TemplateForm.vue'
 import { TemplateItem } from '@/model/template'
 import { createTemplate, deleteTemplate, listTemplates, updateTemplate } from '@/api/template'
@@ -81,7 +80,7 @@ import { createTemplate, deleteTemplate, listTemplates, updateTemplate } from '@
 // Ant Design Vue组件通过标签形式使用，不需要导入组件对象
 
 // 表格列配置
-const columns: TableColumnsType<TemplateItem> = [
+const columns: TableColumn<TemplateItem>[] = [
   {
     title: '模版编码',
     dataIndex: 'code',
@@ -112,8 +111,8 @@ const columns: TableColumnsType<TemplateItem> = [
     title: '状态',
     dataIndex: 'status',
     key: 'status',
-    customRender: ({ text }) => {
-      return text ? '启用' : '禁用'
+    customRender: ({ record }: { record: TemplateItem }) => {
+      return record.status ? '启用' : '禁用'
     },
   },
   {

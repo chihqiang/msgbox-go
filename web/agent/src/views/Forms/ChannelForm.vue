@@ -48,7 +48,7 @@
       <a-form-item label="状态" name="status" class="form-item status-item">
         <div class="status-container">
           <span class="status-label">{{ formModel.status ? '启用' : '禁用' }}</span>
-          <a-switch v-model:checked="formModel.status" size="large" />
+          <a-switch v-model:checked="formModel.status" size="medium" />
         </div>
       </a-form-item>
     </a-form>
@@ -57,7 +57,7 @@
 
 <script setup lang="ts">
 import { ref, reactive, watch, computed, onMounted } from 'vue'
-import type { FormInstance } from 'ant-design-vue'
+import type { FormInstance } from '@arco-design/web-vue'
 import { ChannelItem, ConfigItem, Configs } from "@/model/channel"
 import { getChannelConfigs } from '@/api/channel';
 // Props定义

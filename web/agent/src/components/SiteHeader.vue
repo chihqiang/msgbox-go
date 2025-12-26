@@ -1,54 +1,50 @@
 <template>
-  <a-layout-header>
-    <a-row align="middle" justify="space-between" style="width: 100%; height: 100%;">
+  <a-layout-header class="site-header">
+    <div class="site-header-inner">
       <!-- Left: Logo -->
-      <a-col>
-        <a-space :span="6" @click="navigateToRoute('/')" style="cursor: pointer;">
-          <img src="@/assets/logo.svg" alt="MSGBOX Logo" style="width: 48px; height: 48px;"/>
-          <span style="font-size: 18px; font-weight: 700;">MSGBOX</span>
-        </a-space>
-      </a-col>
+      <div class="header-logo" @click="navigateToRoute('/')">
+        <img src="@/assets/logo.svg" alt="MSGBOX Logo" class="logo-img"/>
+        <span class="logo-text">MSGBOX</span>
+      </div>
 
       <!-- Center: Desktop Navigation -->
-      <a-col :span="12">
+      <div class="header-nav">
         <a-menu
           mode="horizontal"
           :selected-keys="[currentPath]"
-          class="site-menu-horizontal"
-          @click="(e: any) => navigateToRoute(e.key)"
+          :popup-max-height="360"
         >
           <a-menu-item
             v-for="route in navRoutes"
             :key="route.path"
+            @click="navigateToRoute(route.path)"
           >
             {{ route.meta.title }}
           </a-menu-item>
         </a-menu>
-      </a-col>
+      </div>
 
       <!-- Right: Desktop Login/Logout Button -->
-      <a-col :span="1">
+      <div class="header-actions">
         <!-- 登录按钮 - 未登录时显示 -->
-        <a-button v-if="!isLoggedIn" type="primary" @click="navigateToLogin">
+        <a-button v-if="!isLoggedIn" type="primary" size="small" @click="navigateToLogin">
           登录
         </a-button>
         <!-- 退出按钮 - 已登录时显示 -->
-        <a-button v-else type="default" @click="handleLogout">
+        <a-button v-else size="small" @click="handleLogout">
           退出
         </a-button>
-      </a-col>
-    </a-row>
+      </div>
+    </div>
   </a-layout-header>
 </template>
 
 <script setup lang="ts">
 // Header组件 - 网站顶部导航栏
 import { useRouter, useRoute } from 'vue-router'
-import { Button as AButton } from 'ant-design-vue'
-import { computed, createVNode } from 'vue'
+import { computed } from 'vue'
 import { getToken, removeToken } from '@/utils/cookie'
-import { Modal } from 'ant-design-vue';
-import { ExclamationCircleOutlined } from '@ant-design/icons-vue';
+import { Modal } from '@arco-design/web-vue'
 
 // 获取路由实例
 const router = useRouter()
@@ -69,17 +65,12 @@ const isLoggedIn = computed(() => !!getToken())
 const handleLogout = () => {
   Modal.confirm({
     title: '确认退出登录吗？',
-    icon: createVNode(ExclamationCircleOutlined),
+    content: '确定要退出当前账号吗？',
     okText: '确认',
-    okType: 'danger',
     onOk: () => {
-      // 执行退出登录操作
       removeToken()
-      // 刷新当前页面
       window.location.reload()
     },
-    onCancel: () => {
-    }
   })
 }
 
@@ -93,3 +84,52 @@ const navigateToRoute = (path: string) => {
   router.push(path)
 }
 </script>
+
+<style scoped>
+.site-header {
+  background: #fff;
+  padding: 0 16px;
+  height: 56px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.site-header-inner {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  gap: 8px;
+}
+
+.header-logo {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+.logo-img {
+  width: 24px;
+  height: 24px;
+  margin-right: 8px;
+}
+
+.logo-text {
+  font-size: 14px;
+  font-weight: 700;
+  color: #1d2129;
+  white-space: nowrap;
+}
+
+.header-nav {
+  flex: 5;
+  overflow: hidden;
+}
+
+.header-actions {
+  flex: 1;
+}
+</style>

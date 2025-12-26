@@ -2,7 +2,7 @@
   <div>
     <!-- Hero Section -->
     <div>
-      <a-row align="middle">
+      <a-row align="center">
         <a-col :md="12">
           <div>
             <a-typography-title class="hero-title" :level="1"
@@ -118,6 +118,13 @@
 .image-container {
   display: flex;
   justify-content: center;
+  width: 100%;
+}
+
+.image-container img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 8px;
 }
 
 .features-section {

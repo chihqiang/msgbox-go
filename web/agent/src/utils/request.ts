@@ -15,7 +15,7 @@ import type {
   InternalAxiosRequestConfig,
 } from 'axios'
 import { getToken } from '@/utils/cookie'
-import { message } from 'ant-design-vue'
+import { Message } from '@arco-design/web-vue'
 
 /**
  * API响应数据接口定义
@@ -78,7 +78,7 @@ service.interceptors.response.use(
     if (res.code === 0) {
       return res
     }
-    message.error(res.msg || 'Error', 1)
+    Message.error(res.msg || 'Error')
     return Promise.reject(new Error(res.msg || 'Error'))
   },
   (error: AxiosError) => {
@@ -103,10 +103,9 @@ service.interceptors.response.use(
           errorMsg = `请求失败: ${error.response.statusText || status}`
       }
     } else if (error.request) {
-      // 请求已发送但未收到响应
       errorMsg = '网络连接失败，请检查网络'
     }
-    message.error(errorMsg, 1)
+    Message.error(errorMsg)
     return Promise.reject(new Error(errorMsg))
   },
 )

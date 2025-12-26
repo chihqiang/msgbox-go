@@ -1,6 +1,5 @@
 <template>
   <div>
-    <!-- 页面标题和说明 -->
     <div style="margin-bottom: 32px">
       <a-typography-title :level="2">通道管理</a-typography-title>
       <a-typography-paragraph
@@ -8,7 +7,6 @@
       >
     </div>
 
-    <!-- 搜索和创建按钮区域 -->
     <a-card style="margin-bottom: 24px">
       <div
         style="
@@ -28,35 +26,29 @@
         />
         <a-button type="primary" @click="handleCreate">
           <template #icon>
-            <plus-outlined />
+            <icon-plus />
           </template>
           创建通道
         </a-button>
       </div>
     </a-card>
 
-    <!-- 通道列表卡片 -->
     <a-card>
       <a-table
         :columns="columns"
-        :data-source="filteredChannels"
+        :data="filteredChannels"
         :pagination="pagination"
         row-key="id"
         :loading="loading"
         size="middle"
       >
-        <template #bodyCell="{ record, column }">
-          <template v-if="column.key === 'actions'">
-            <a-button-group>
-              <a-button type="link" @click="handleEdit(record)"> 编辑 </a-button>
-              <a-button type="link" danger @click="handleDelete(record)"> 删除 </a-button>
-            </a-button-group>
-          </template>
+        <template #operation="{ record }">
+          <a-button type="text" @click="handleEdit(record)"> 编辑 </a-button>
+          <a-button type="text" status="danger" @click="handleDelete(record)"> 删除 </a-button>
         </template>
       </a-table>
     </a-card>
 
-    <!-- 创建/编辑通道对话框 -->
     <a-modal
       v-model:open="showModal"
       :title="modalTitle"
@@ -66,24 +58,18 @@
     >
       <channel-form v-if="currentChannel" :model="currentChannel" ref="channelForm" />
     </a-modal>
-
-    <!-- 删除确认对话框已通过函数式调用实现 -->
   </div>
 </template>
 
 <script setup lang="ts">
 import { ref, reactive, computed, onMounted, watch } from 'vue'
-import { PlusOutlined } from '@ant-design/icons-vue'
-import { Modal } from 'ant-design-vue'
-
-// Ant Design Vue组件通过标签形式使用，无需导入组件对象
-import type { TableColumnsType } from 'ant-design-vue'
+import { Modal } from '@arco-design/web-vue'
+import type { TableColumn } from '@arco-design/web-vue'
 import ChannelForm from './Forms/ChannelForm.vue'
 import { ChannelItem } from '@/model/channel'
 import { createChannel, deleteChannel, listChannels, updateChannel } from '@/api/channel'
 
-// 表格列配置
-const columns: TableColumnsType<ChannelItem> = [
+const columns: TableColumn<ChannelItem>[] = [
   {
     title: '通道编码',
     dataIndex: 'code',
@@ -104,15 +90,12 @@ const columns: TableColumnsType<ChannelItem> = [
     dataIndex: 'config',
     key: 'config',
     ellipsis: true,
-    customRender: ({ text }: { text: string | object }) => {
+    render: ({ record }: { record: ChannelItem }) => {
       try {
-        // 尝试解析配置内容
-        const configObj = typeof text === 'string' ? JSON.parse(text) : text
-        // 显示格式化后的配置，确保access_token可见
+        const configObj = typeof record.config === 'string' ? JSON.parse(record.config) : record.config
         return JSON.stringify(configObj, null, 2)
       } catch {
-        // 如果解析失败，返回原始文本
-        return String(text)
+        return String(record.config)
       }
     },
   },
@@ -120,8 +103,8 @@ const columns: TableColumnsType<ChannelItem> = [
     title: '状态',
     dataIndex: 'status',
     key: 'status',
-    customRender: ({ text }) => {
-      return text ? '启用' : '禁用'
+    render: ({ record }: { record: ChannelItem }) => {
+      return record.status ? '启用' : '禁用'
     },
   },
   {
@@ -131,12 +114,11 @@ const columns: TableColumnsType<ChannelItem> = [
   },
   {
     title: '操作',
-    key: 'actions',
+    key: 'operation',
     fixed: 'right',
   },
 ]
 
-// 响应式数据
 const channels = ref<ChannelItem[]>([])
 const searchKeyword = ref('')
 const loading = ref(false)
@@ -146,49 +128,42 @@ const showDeleteConfirm = ref(false)
 const currentChannel = ref<ChannelItem | null>(null)
 const channelForm = ref<InstanceType<typeof ChannelForm> | null>(null)
 
-// 分页配置
 const pagination = reactive({
   current: 1,
   pageSize: 10,
   total: 0,
   onChange: (page: number) => {
     pagination.current = page
-    fetchChannels() // 页码变更时重新获取数据
+    fetchChannels()
   },
 })
-// 生命周期钩子：组件挂载时获取通道列表
 onMounted(() => {
   fetchChannels()
 })
 
-// 搜索功能 - 直接返回channels数组，搜索在后端API中进行
 const filteredChannels = computed(() => {
   return channels.value
 })
-// 计算属性：模态框标题
 const modalTitle = computed(() => {
   return currentChannel.value?.id ? '编辑通道' : '创建通道'
 })
-// 获取通道列表（调用后端API，支持搜索）
 const fetchChannels = async () => {
   loading.value = true
   const res = await listChannels({
     page: pagination.current,
     size: pagination.pageSize,
-    keywords: searchKeyword.value, // 传入搜索关键词到后端API
+    keywords: searchKeyword.value,
   })
   channels.value = res.data.data || []
   pagination.total = res.data.total || 0
   loading.value = false
 }
 
-// 搜索处理
 const handleSearch = () => {
   pagination.current = 1
-  fetchChannels() // 搜索时重新获取数据
+  fetchChannels()
 }
 
-// 打开创建通道模态框
 const handleCreate = () => {
   currentChannel.value = {
     id: 0,
@@ -204,13 +179,11 @@ const handleCreate = () => {
   showCreateModal.value = true
 }
 
-// 打开编辑通道模态框
 const handleEdit = (item: ChannelItem) => {
   currentChannel.value = { ...item }
   showModal.value = true
 }
 
-// 打开删除确认对话框
 const handleDelete = (item: ChannelItem) => {
   currentChannel.value = { ...item }
   Modal.confirm({
@@ -219,19 +192,15 @@ const handleDelete = (item: ChannelItem) => {
     onOk: async () => {
       if (!currentChannel.value) return
       try {
-        // 模拟API调用
         loading.value = true
         if (currentChannel.value?.id) {
           await deleteChannel(currentChannel.value.id)
         }
-        // 从本地数据中移除
         const index = channels.value.findIndex((c) => c.id === currentChannel.value?.id)
         if (index !== -1) {
           channels.value.splice(index, 1)
         }
-        // 关闭确认对话框
         showDeleteConfirm.value = false
-        // 显示成功消息
         console.log('删除成功')
       } catch (error) {
         console.error('删除失败:', error)
@@ -245,25 +214,20 @@ const handleDelete = (item: ChannelItem) => {
   })
 }
 
-// 保存通道（创建或编辑）
 const handleSave = async () => {
   if (!channelForm.value) return
 
   try {
     const formData = await channelForm.value.validate()
     if (formData) {
-      // 模拟API调用
       loading.value = true
       if (currentChannel.value?.id) {
         await updateChannel(formData)
       } else {
         await createChannel(formData)
       }
-      // 保存成功后关闭模态框
       showModal.value = false
-      // 重新获取通道列表以显示最新数据
       await fetchChannels()
-      // 重置表单
       if (channelForm.value) {
         channelForm.value.resetFields()
       }
@@ -276,7 +240,6 @@ const handleSave = async () => {
   }
 }
 
-// 取消操作
 const handleCancel = () => {
   showModal.value = false
   if (channelForm.value) {
@@ -284,15 +247,10 @@ const handleCancel = () => {
   }
 }
 
-// 删除功能的处理逻辑已通过闭包方式直接实现在Modal.confirm配置中
-
-// 监听搜索关键词变化
 watch(searchKeyword, () => {
   pagination.current = 1
-  // 注意：不再手动设置total，而是通过fetchChannels从后端获取
 })
 
-// 监听创建模态框显示状态
 watch(showCreateModal, (newVal: boolean) => {
   if (newVal) {
     handleCreate()

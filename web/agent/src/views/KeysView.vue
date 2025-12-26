@@ -20,7 +20,7 @@
                 <a-button-group>
                   <a-button type="text" title="复制" @click="copyToClipboard(apiKey)">
                     <template #icon>
-                      <copy-outlined />
+                      <icon-copy />
                     </template>
                   </a-button>
                 </a-button-group>
@@ -42,12 +42,12 @@
                 <a-button-group>
                   <a-button type="text" title="复制" @click="copyToClipboard(apiSecret)">
                     <template #icon>
-                      <copy-outlined />
+                      <icon-copy />
                     </template>
                   </a-button>
                   <a-button type="text" title="重新生成" @click="resetApiSecret()">
                     <template #icon>
-                      <reload-outlined />
+                      <icon-refresh />
                     </template>
                   </a-button>
                 </a-button-group>
@@ -83,7 +83,7 @@
           <span>API调用示例</span>
           <a-button type="text" title="复制" @click="copyCurlExample">
             <template #icon>
-              <copy-outlined />
+              <icon-copy />
             </template>
           </a-button>
         </div>
@@ -157,11 +157,7 @@
 
 <script setup lang="ts">
 import { ref, computed, onMounted } from 'vue'
-import {
-  CopyOutlined as CopyOutlined,
-  ReloadOutlined as ReloadOutlined,
-} from '@ant-design/icons-vue'
-import { message, Modal } from 'ant-design-vue'
+import { Message, Modal } from '@arco-design/web-vue'
 import { getAgentInfo, resetSecret } from '@/api/agent'
 
 // 密钥数据
@@ -203,10 +199,10 @@ const copyToClipboard = (text: string) => {
   navigator.clipboard
     .writeText(text)
     .then(() => {
-      message.success('复制成功')
+      Message.success('复制成功')
     })
     .catch(() => {
-      message.error('复制失败')
+      Message.error('复制失败')
     })
 }
 
@@ -221,7 +217,7 @@ const resetApiSecret = () => {
       const { data } = await resetSecret()
       if (data) {
         apiSecret.value = data.agent_secret || ''
-        message.success('密钥已重新生成')
+        Message.success('密钥已重新生成')
       }
     },
   })
@@ -232,10 +228,10 @@ const copyCurlExample = () => {
   navigator.clipboard
     .writeText(curlExample.value)
     .then(() => {
-      message.success('复制成功')
+      Message.success('复制成功')
     })
     .catch(() => {
-      message.error('复制失败')
+      Message.error('复制失败')
     })
 }
 </script>

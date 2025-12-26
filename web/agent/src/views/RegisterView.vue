@@ -1,6 +1,5 @@
 <template>
   <div class="register-wrapper">
-    <!-- 左侧品牌区域 -->
     <div class="register-brand">
       <div class="brand-content">
         <img src="@/assets/logo.svg" alt="MSGBOX Logo" class="brand-logo" />
@@ -16,10 +15,8 @@
       </div>
     </div>
 
-    <!-- 右侧注册表单区域 -->
     <div class="register-form-container">
       <div class="form-wrapper">
-        <!-- 注册表单标题 -->
         <div class="form-header">
           <a-typography-title :level="2" class="form-title">创建账号</a-typography-title>
           <a-typography-paragraph class="form-subtitle"
@@ -27,18 +24,15 @@
           >
         </div>
 
-        <!-- 注册表单 -->
         <a-form :model="formState" @finish="handleRegister">
-          <!-- 邮箱输入 -->
           <a-form-item
             label="邮箱"
             name="email"
             :rules="[{ required: true, message: '请输入邮箱', type: 'email' }]"
           >
-            <a-input v-model:value="formState.email" placeholder="请输入邮箱" prefix-icon="mail" />
+            <a-input v-model:value="formState.email" placeholder="请输入邮箱" />
           </a-form-item>
 
-          <!-- 手机号输入 -->
           <a-form-item
             label="手机号"
             name="phone"
@@ -47,11 +41,9 @@
             <a-input
               v-model:value="formState.phone"
               placeholder="请输入手机号"
-              prefix-icon="mobile"
             />
           </a-form-item>
 
-          <!-- 密码输入 -->
           <a-form-item
             label="密码"
             name="password"
@@ -60,11 +52,9 @@
             <a-input-password
               v-model:value="formState.password"
               placeholder="••••••••"
-              :visibility-toggle="true"
             />
           </a-form-item>
 
-          <!-- 确认密码输入 -->
           <a-form-item
             label="确认密码"
             name="confirmPassword"
@@ -73,10 +63,8 @@
             <a-input-password
               v-model:value="formState.confirmPassword"
               placeholder="••••••••"
-              :visibility-toggle="true"
             />
           </a-form-item>
-          <!-- 邀请码 -->
           <a-form-item
             label="邀请码"
             name="code"
@@ -85,22 +73,19 @@
             <a-input
               v-model:value="formState.code"
               placeholder="请输入邀请码"
-              prefix-icon="code"
             />
           </a-form-item>
-          <!-- 注册按钮 -->
           <a-form-item>
-            <a-button type="primary" html-type="submit" size="large" class="register-button">
+            <a-button type="primary" html-type="submit" size="large" class="btn-block">
               立即注册
             </a-button>
           </a-form-item>
         </a-form>
 
-        <!-- 登录链接 -->
         <div class="login-link">
           <a-typography-paragraph>
             已有账号?
-            <router-link to="/login" class="login-button"> 立即登录 </router-link>
+            <router-link to="/login" class="link"> 立即登录 </router-link>
           </a-typography-paragraph>
         </div>
       </div>
@@ -110,11 +95,10 @@
 
 <script setup lang="ts">
 import { reactive } from 'vue'
-import { message } from 'ant-design-vue'
+import { Message } from '@arco-design/web-vue'
 import { register } from '@/api/auth'
 import { useRouter } from 'vue-router'
 const router = useRouter()
-// 表单状态
 const formState = reactive({
   email: '',
   phone: '',
@@ -123,7 +107,6 @@ const formState = reactive({
   confirmPassword: '',
 })
 
-// 密码验证函数
 const validatePassword = (
   _rule: { field: string; message?: string; required?: boolean },
   value: string,
@@ -138,10 +121,9 @@ const validatePassword = (
 }
 
 const handleRegister = async (values: typeof formState) => {
-  // 注册逻辑将在这里实现
   console.log('Register submitted:', values)
   await register(values)
-  message.success('注册成功！')
+  Message.success('注册成功！')
   setTimeout(() => {
     router.push('/login')
   }, 1000)
@@ -149,15 +131,11 @@ const handleRegister = async (values: typeof formState) => {
 </script>
 
 <style scoped>
-/* 注册页面包装器 */
 .register-wrapper {
   display: flex;
-  border-radius: 8px;
-  overflow: hidden;
-  min-height: 600px;
+  min-height: 100vh;
 }
 
-/* 品牌区域 */
 .register-brand {
   width: 40%;
   background: linear-gradient(135deg, #1e40af 0%, #1e3a8a 100%);
@@ -167,13 +145,11 @@ const handleRegister = async (values: typeof formState) => {
   justify-content: center;
 }
 
-/* 品牌内容 */
 .brand-content {
   text-align: center;
   padding: 24px;
 }
 
-/* 品牌Logo */
 .brand-logo {
   width: 80px;
   height: 80px;
@@ -183,20 +159,16 @@ const handleRegister = async (values: typeof formState) => {
   padding: 8px;
 }
 
-/* 品牌标题 */
 .brand-title {
   color: white;
   margin-bottom: 16px;
 }
 
-/* 品牌描述 */
 .brand-description {
-  color: white;
-  opacity: 0.9;
+  color: rgba(255, 255, 255, 0.9);
   margin-bottom: 24px;
 }
 
-/* 品牌特性 */
 .brand-features {
   background: rgba(0, 0, 0, 0.2);
   padding: 12px;
@@ -209,46 +181,37 @@ const handleRegister = async (values: typeof formState) => {
   margin: 0;
 }
 
-/* 注册表单容器 */
 .register-form-container {
-  width: 60%;
-  padding: 40px;
-  background: white;
+  flex: 1;
   display: flex;
   align-items: center;
   justify-content: center;
+  padding: 40px;
 }
 
-/* 表单包装器 */
 .form-wrapper {
-  max-width: 400px;
   width: 100%;
+  max-width: 400px;
 }
 
-/* 表单头部 */
 .form-header {
   text-align: center;
   margin-bottom: 40px;
 }
 
-/* 表单标题 */
 .form-title {
   color: #1f2937;
   margin-bottom: 8px;
 }
 
-/* 表单副标题 */
 .form-subtitle {
   color: #6b7280;
 }
 
-/* 注册按钮 */
-.register-button {
+.btn-block {
   width: 100%;
-  padding: 12px;
 }
 
-/* 登录链接 */
 .login-link {
   text-align: center;
   margin-top: 24px;
@@ -256,9 +219,39 @@ const handleRegister = async (values: typeof formState) => {
   border-top: 1px solid #f0f0f0;
 }
 
-/* 登录按钮 */
-.login-button {
-  color: #1677ff;
-  font-weight: 500;
+.link {
+  color: #165DFF;
+}
+
+@media (max-width: 768px) {
+  .register-wrapper {
+    flex-direction: column;
+  }
+
+  .register-brand {
+    width: 100%;
+    padding: 32px 16px;
+  }
+
+  .brand-logo {
+    width: 60px;
+    height: 60px;
+  }
+
+  .brand-title {
+    font-size: 24px;
+  }
+
+  .register-form-container {
+    padding: 24px 16px;
+  }
+
+  .form-wrapper {
+    max-width: 100%;
+  }
+
+  .form-header {
+    margin-bottom: 24px;
+  }
 }
 </style>

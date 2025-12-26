@@ -34,7 +34,7 @@
 
 <script setup lang="ts">
 import { ref, reactive, watch, onMounted, computed } from 'vue'
-import type { FormInstance } from 'ant-design-vue'
+import type { FormInstance } from '@arco-design/web-vue'
 import { TemplateItem } from '@/model/template'
 import { SelectOption } from '@/model/base'
 import { listChannels } from '@/api/channel'

@@ -17,9 +17,6 @@
           @search="handleSearch"
         />
         <a-button type="primary" @click="handleSearch">
-          <template #icon>
-            <search-outlined />
-          </template>
           搜索
         </a-button>
         <a-button @click="handleReset"> 重置 </a-button>
@@ -54,13 +51,12 @@
 
 <script setup lang="ts">
 import { ref, reactive, onMounted, h } from 'vue'
-import { SearchOutlined } from '@ant-design/icons-vue'
-import type { TableColumnsType } from 'ant-design-vue'
+import type { TableColumn } from '@arco-design/web-vue'
 import { RecordItem } from '@/model/record'
 import { listRecords } from '@/api/record'
 
 // 表格列配置
-const columns: TableColumnsType<RecordItem> = [
+const columns: TableColumn<RecordItem>[] = [
   {
     title: '接收人',
     dataIndex: 'receiver',
@@ -87,7 +83,7 @@ const columns: TableColumnsType<RecordItem> = [
     dataIndex: 'content',
     key: 'content',
     ellipsis: true,
-    customRender: ({ record }) => {
+    customRender: ({ record }: { record: RecordItem }) => {
       return h(
         'div',
         {
@@ -123,7 +119,7 @@ const columns: TableColumnsType<RecordItem> = [
     dataIndex: 'error',
     key: 'error',
     ellipsis: true,
-    customRender: ({ record }) => {
+    customRender: ({ record }: { record: RecordItem }) => {
       if (!record.error) return null
       return h(
         'div',
@@ -141,7 +137,7 @@ const columns: TableColumnsType<RecordItem> = [
     dataIndex: 'response',
     key: 'response',
     ellipsis: true,
-    customRender: ({ record }) => {
+    customRender: ({ record }: { record: RecordItem }) => {
       if (!record.response) return null
       return h(
         'div',
@@ -158,7 +154,7 @@ const columns: TableColumnsType<RecordItem> = [
     title: '通道配置',
     dataIndex: 'channel_config',
     key: 'channel_config',
-    customRender: ({ record }) => {
+    customRender: ({ record }: { record: RecordItem }) => {
       return h(
         'div',
         {
@@ -174,7 +170,7 @@ const columns: TableColumnsType<RecordItem> = [
     title: '变量',
     dataIndex: 'variables',
     key: 'variables',
-    customRender: ({ record }) => {
+    customRender: ({ record }: { record: RecordItem }) => {
       if (!record.variables) return null
       return h(
         'div',

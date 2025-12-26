@@ -18,9 +18,8 @@
     "format": "prettier --write src/"
   },
   "dependencies": {
-    "@ant-design/icons-vue": "^7.0.1",
+    "@arco-design/web-vue": "^2.54.0",
     "@types/js-cookie": "^3.0.6",
-    "ant-design-vue": "^4.0.0",
     "axios": "^1.13.2",
     "js-cookie": "^3.0.5",
     "pinia": "^3.0.3",
